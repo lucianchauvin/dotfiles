@@ -1,0 +1,1 @@
+/home/qualia/theme/home_stuff/.zprofile
