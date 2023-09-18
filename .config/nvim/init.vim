@@ -1,3 +1,5 @@
+set clipboard+=unnamedplus
+
 call plug#begin()
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'

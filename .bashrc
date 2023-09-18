@@ -4,10 +4,10 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-export PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux
-alias ls='ls --color=auto'
+export PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux:/home/qualia/.local/bin
+alias ls='ls --color=auto -a'
 alias grep='grep --color=auto'
-alias gbr='g++ -std=c++17 -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined *.cpp'
+alias gbr='g++ -std=c++20 -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined *.cpp; ./a.out'
 alias cls='clear'
 alias wifi='iwctl'
 
@@ -23,3 +23,6 @@ fi
 alias config='/usr/bin/git --git-dir=/home/qualia/.cfg/ --work-tree=/home/qualia'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias config='/usr/bin/git --git-dir=/home/qualia/.cfg/ --work-tree=/home/qualia'
+alias blth='sudo systemctl start bluetooth'
+alias copy='xclip -selection clipboard'
+[[ -s /etc/profile.d/autojump.sh ]] && source /etc/profile.d/autojump.sh
