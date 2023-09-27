@@ -1,4 +1,11 @@
 set clipboard+=unnamedplus
+set number!
+set shellcmdflag+=i
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
 
 call plug#begin()
 Plug 'nvim-lualine/lualine.nvim'
@@ -18,6 +25,37 @@ Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
 call plug#end()
+
+function! s:swap_lines(n1, n2)
+    let line1 = getline(a:n1)
+    let line2 = getline(a:n2)
+    call setline(a:n1, line2)
+    call setline(a:n2, line1)
+endfunction
+
+function! s:swap_up()
+    let n = line('.')
+    if n == 1
+        return
+    endif
+
+    call s:swap_lines(n, n - 1)
+    exec n - 1
+endfunction
+
+function! s:swap_down()
+    let n = line('.')
+    if n == line('$')
+        return
+    endif
+
+    call s:swap_lines(n, n + 1)
+    exec n + 1
+endfunction
+
+noremap <silent> <A-up> :call <SID>swap_up()<CR>
+noremap <silent> <A-down> :call <SID>swap_down()<CR>
+
 lua << END
 require('lualine').setup {
   options = {
