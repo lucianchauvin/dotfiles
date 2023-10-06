@@ -5,6 +5,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
+
 inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
 
 call plug#begin()
@@ -159,11 +160,16 @@ local cmp = require'cmp'
     })
   })
 
-  -- Set up lspconfig.
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
   require('lspconfig')['clangd'].setup {
     capabilities = capabilities
   }
   require'lspconfig'.pyright.setup{}
+
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        update_in_insert = true, 
+    }
+  )
 END
