@@ -1,4 +1,4 @@
 import:
   - ~/.config/alacritty/gruv.yaml
 window:
-  opacity: .7
+  opacity: 1

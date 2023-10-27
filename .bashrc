@@ -25,4 +25,5 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias config='/usr/bin/git --git-dir=/home/qualia/.cfg/ --work-tree=/home/qualia'
 alias blth='sudo systemctl start bluetooth'
 alias copy='xclip -selection clipboard'
+alias n='nvim'
 [[ -s /etc/profile.d/autojump.sh ]] && source /etc/profile.d/autojump.sh

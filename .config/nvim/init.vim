@@ -1,3 +1,5 @@
+
+set spell spelllang=en_us
 set clipboard+=unnamedplus
 set number!
 set shellcmdflag+=i
@@ -21,9 +23,9 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
-" For vsnip users.
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+
 
 call plug#end()
 
@@ -57,6 +59,7 @@ endfunction
 noremap <silent> <A-up> :call <SID>swap_up()<CR>
 noremap <silent> <A-down> :call <SID>swap_down()<CR>
 
+
 lua << END
 require('lualine').setup {
   options = {
@@ -64,39 +67,8 @@ require('lualine').setup {
     theme = 'gruvbox_dark',
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
-    disabled_filetypes = {
-      statusline = {},
-      winbar = {},
-    },
-    ignore_focus = {},
-    always_divide_middle = true,
-    globalstatus = false,
-    refresh = {
-      statusline = 1000,
-      tabline = 1000,
-      winbar = 1000,
-    }
+    symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'},
   },
-  sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
-  },
-  tabline = {},
-  winbar = {},
-  inactive_winbar = {},
-  extensions = {}
 }
 
 local cmp = require'cmp'
@@ -159,17 +131,22 @@ local cmp = require'cmp'
       { name = 'cmdline' }
     })
   })
-
+    require("nvim-web-devicons").setup{}
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
   require('lspconfig')['clangd'].setup {
     capabilities = capabilities
   }
   require'lspconfig'.pyright.setup{}
+  require'lspconfig'.hls.setup{}
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        update_in_insert = true, 
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    update_in_insert = true, 
+  })
+require'nvim-treesitter.configs'.setup{
+    auto_install = true,
+    highlight = {
+        enable = true
     }
-  )
+}
 END
