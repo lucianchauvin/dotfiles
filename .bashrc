@@ -15,6 +15,8 @@ RED="\[\e[91m\]"
 ENDCOLOR="\[\e[0m\]"
 export PS1="${RED}[\u@\h \W]\$${ENDCOLOR} "
 
+bind '"\e[A":history-search-backward'
+bind '"\e[B":history-search-forward'
 
 #Startx Automatically
 if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then

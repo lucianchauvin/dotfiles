@@ -15,6 +15,7 @@ Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'terrortylor/nvim-comment'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -61,6 +62,7 @@ noremap <silent> <A-down> :call <SID>swap_down()<CR>
 
 
 lua << END
+require('nvim_comment').setup()
 require('lualine').setup {
   options = {
     icons_enabled = true,
