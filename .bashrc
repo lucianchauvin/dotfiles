@@ -29,4 +29,13 @@ alias config='/usr/bin/git --git-dir=/home/qualia/.cfg/ --work-tree=/home/qualia
 alias blth='sudo systemctl start bluetooth'
 alias copy='xclip -selection clipboard'
 alias n='nvim'
+alias google='google-chrome-stable'
+alias tests='make -C tests -j12 run-all -k'
+
 [[ -s /etc/profile.d/autojump.sh ]] && source /etc/profile.d/autojump.sh
+
+mkcdir ()
+{
+    mkdir -p -- "$1" &&
+       cd -P -- "$1"
+}
