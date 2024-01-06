@@ -5,15 +5,16 @@ set shellcmdflag+=i
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set completeopt+=menuone,noinsert,noselect,preview
 let g:auto_save=0
 autocmd BufRead,BufNewFile   *.tex let g:auto_save=1
 
 set conceallevel=2
 hi Conceal ctermbg=none
 
-
 inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
 call plug#begin()
+Plug 'Maan2003/lsp_lines.nvim'
 Plug '907th/vim-auto-save'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -74,6 +75,11 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 
 lua << END
+require('lsp_lines').setup()
+-- Disable virtual_text since it's redundant due to lsp_lines.
+vim.diagnostic.config({
+  virtual_text = false,
+})
 require('nvim_comment').setup()
 require('lualine').setup {
   options = {
@@ -94,12 +100,12 @@ local cmp = require'cmp'
         vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
         -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
         -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
       end,
     },
     window = {
-      -- completion = cmp.config.window.bordered(),
-      -- documentation = cmp.config.window.bordered(),
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
       ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -112,7 +118,7 @@ local cmp = require'cmp'
       { name = 'nvim_lsp' },
       { name = 'vsnip' }, -- For vsnip users.
       -- { name = 'luasnip' }, -- For luasnip users.
-      -- { name = 'ultisnips' }, -- For ultisnips users.
+      { name = 'ultisnips' }, -- For ultisnips users.
       -- { name = 'snippy' }, -- For snippy users.
     }, {
       { name = 'buffer' },
