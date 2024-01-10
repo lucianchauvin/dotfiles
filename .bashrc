@@ -4,8 +4,8 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-alias ls='ls --color=auto -lh'
-alias lsa='ls --color=auto -lh -a'
+alias ls='ls --color=auto -lh --group-directories-first'
+alias lsa='ls --color=auto -lh -a --group-directories-first'
 alias grep='grep --color=auto'
 alias gbr='g++ -std=c++20 -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined *.cpp; ./a.out'
 alias cls='clear'
