@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-## Author : Aditya Shakya (adi1090x)
-## Github : @adi1090x
-#
-## Rofi   : Power Menu
-#
-## Available Styles
-#
-## style-1   style-2   style-3   style-4   style-5
-## style-6   style-7   style-8   style-9   style-10
-
 # Current Theme
 dir="$HOME/.config/rofi/powermenu/type-2"
 theme='style-1'
@@ -71,7 +61,7 @@ run_cmd() {
 			amixer set Master mute
 			systemctl suspend
 		elif [[ $1 == '--logout' ]]; then
-			pkill -KILL -u $USER
+            loginctl terminate-user $USER
 		fi
 	else
 		exit 0
@@ -86,13 +76,6 @@ case ${chosen} in
         ;;
     $reboot)
 		run_cmd --reboot
-        ;;
-    $lock)
-		if [[ -x '/usr/bin/betterlockscreen' ]]; then
-			betterlockscreen -l
-		elif [[ -x '/usr/bin/i3lock' ]]; then
-			i3lock
-		fi
         ;;
     $suspend)
 		run_cmd --suspend
