@@ -51,6 +51,8 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
+xset r rate 300 50
+
 # twm &
 # xclock -geometry 50x50-1+1 &
 # xterm -geometry 80x50+494+51 &
