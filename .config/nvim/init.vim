@@ -6,6 +6,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set completeopt+=menuone,noinsert,noselect,preview
+set relativenumber
 let g:auto_save=0
 autocmd BufRead,BufNewFile   *.tex let g:auto_save=1
 
