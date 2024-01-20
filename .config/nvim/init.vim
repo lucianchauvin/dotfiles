@@ -6,6 +6,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set completeopt+=menuone,noinsert,noselect,preview
+set nofoldenable
 set relativenumber
 let g:auto_save=0
 autocmd BufRead,BufNewFile   *.tex let g:auto_save=1
@@ -14,6 +15,12 @@ set conceallevel=2
 hi Conceal ctermbg=none
 
 inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
+nmap <C-n> :NvimTreeToggle<CR>
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+
 call plug#begin()
 Plug 'Maan2003/lsp_lines.nvim'
 Plug '907th/vim-auto-save'
@@ -21,6 +28,7 @@ Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'terrortylor/nvim-comment'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -76,6 +84,13 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 
 lua << END
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+require("nvim-tree").setup()
+--vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', {
+--  noremap = true
+--})
+
 require('lsp_lines').setup()
 -- Disable virtual_text since it's redundant due to lsp_lines.
 vim.diagnostic.config({

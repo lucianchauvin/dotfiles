@@ -13,7 +13,8 @@ set index-bg \#2a2426
 set index-fg \#e6d6ac
 set statusbar-home-tilde true
 set index-active-bg \#e68183
-set font 'NotoSansM Nerd Font Mono 10'
+set font 'NotoSansM Nerd Font Mono 11'
 set font size Normal
 
 set selection-clipboard clipboard
+set vertical-center

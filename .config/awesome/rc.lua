@@ -1,12 +1,3 @@
---[[
-
-hi     Awesome WM configuration template
-     github.com/lcpz
-
---]]
-
--- {{{ Required libraries
-
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
@@ -71,8 +62,9 @@ end
 
 run_once({ "urxvtd", "unclutter -root" }) -- comma-separated entries
 
--- This function implements the XDG autostart specification
+awful.spawn.with_shell("blueman -startintray")
 
+-- This function implements the XDG autostart specification
 awful.spawn.with_shell(
     'if (xrdb -query | grep -q "^awesome\\.started:\\s*true$"); then exit; fi;' ..
     'xrdb -merge <<< "awesome.started:true";' ..
