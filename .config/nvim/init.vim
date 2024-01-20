@@ -8,6 +8,8 @@ set expandtab
 set completeopt+=menuone,noinsert,noselect,preview
 set nofoldenable
 set relativenumber
+set splitright
+set splitbelow
 let g:auto_save=0
 autocmd BufRead,BufNewFile   *.tex let g:auto_save=1
 
