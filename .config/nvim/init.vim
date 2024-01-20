@@ -87,16 +87,15 @@ lua << END
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 require("nvim-tree").setup()
---vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', {
---  noremap = true
---})
 
 require('lsp_lines').setup()
 -- Disable virtual_text since it's redundant due to lsp_lines.
 vim.diagnostic.config({
   virtual_text = false,
 })
+
 require('nvim_comment').setup()
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -108,7 +107,6 @@ require('lualine').setup {
 }
 
 local cmp = require'cmp'
-
   cmp.setup({
     snippet = {
       -- REQUIRED - you must specify a snippet engine
@@ -167,21 +165,27 @@ local cmp = require'cmp'
       { name = 'cmdline' }
     })
   })
-    require("nvim-web-devicons").setup{}
+  require("nvim-web-devicons").setup{}
+
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
  --  lua/lspconfig/server_configurations/SERVER_NAME.lua
   require('lspconfig')['clangd'].setup {
     capabilities = capabilities
   }
+
   require'lspconfig'.ltex.setup{}
+
   require'lspconfig'.pyright.setup{}
+
   require'lspconfig'.hls.setup{}
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     update_in_insert = true, 
   })
-require'nvim-treesitter.configs'.setup{
+
+  require'nvim-treesitter.configs'.setup{
     auto_install = true,
     highlight = {
         enable = true,
