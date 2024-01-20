@@ -22,6 +22,10 @@ yellow = "0xd79921"
 background = "0x282828"
 foreground = "0xebdbb2"
 
+[font]
+size = 11.0
+
 [font.normal]
 family = "NotoSansM Nerd Font Mono"
 style = "Normal"
+
