@@ -25,6 +25,7 @@ nmap <C-l> <C-w>l
 
 call plug#begin()
 Plug 'Maan2003/lsp_lines.nvim'
+Plug 'kylechui/nvim-surround'
 Plug '907th/vim-auto-save'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -86,6 +87,8 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 
 lua << END
+require("nvim-surround").setup()
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 require("nvim-tree").setup()

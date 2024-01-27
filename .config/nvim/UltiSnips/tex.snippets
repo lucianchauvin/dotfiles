@@ -126,6 +126,11 @@ endsnippet
 snippet txt "Text" wA
 \text{$1}$0
 endsnippet
+
+snippet secs "section" wA
+\section{$1}$0
+endsnippet
+
 snippet subs "Subsection" wA
 \subsection{$1}$0
 endsnippet
@@ -307,6 +312,7 @@ snippet __ "subscript" iA
 _{$1}$0
 endsnippet
 
+context "math()"
 snippet inf "\infty" iA
 \infty
 endsnippet
@@ -332,6 +338,12 @@ context "math()"
 snippet AA "forall" iA
 \forall 
 endsnippet
+
+context "math()"
+snippet epsi "varepsilon" iA
+\varepsilon 
+endsnippet
+
 
 context "math()"
 snippet xnn "xn" iA
@@ -450,8 +462,8 @@ endsnippet
 
 priority 100
 context "math()"
-snippet -> "to" iA
-\to 
+snippet -> "rightarrow" iA
+\rightarrow 
 endsnippet
 
 priority 200
@@ -504,7 +516,7 @@ endsnippet
 
 
 context "math()"
-snippet cc "subset" Ai
+snippet cC "subset" Ai
 \subset 
 endsnippet
 
@@ -513,7 +525,7 @@ snippet notin "not in " iA
 endsnippet
 
 context "math()"
-snippet inn "in " iA
+snippet in "in " iA
 \in 
 endsnippet
 
@@ -692,4 +704,44 @@ endglobal
 pre_expand "create_matrix(snip)"
 snippet "(small|[bBpvV])?mat(rix)?(\d+)x(\d+)" "Generate (small|[bBpvV])?matrix of *rows* by *columns*" br
 endsnippet
+
+global !p
+def create_table(snip):
+
+        matrix_str = (snip.buffer[snip.line].split('tab')[0]+'table').strip()
+
+        rows = 'x'.join(snip.buffer[snip.line].split("x", 2)[:-1])
+        cols = 'x'.join(snip.buffer[snip.line].split("x", 2)[-1:])
+
+        int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
+
+        rows = int_val(rows)
+        cols = int_val(cols)
+
+        offset = cols + 1
+        old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+
+        snip.buffer[snip.line] = ''
+
+        final_str = old_spacing + "\\begin{tabular}{"
+        if cols > 1:
+                for i in range(cols): 
+                       final_str += "|c"
+        final_str += "|"
+        final_str += "}\n\t\hline \n"
+        for i in range(rows):
+                final_str += old_spacing + '\t'
+                final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+                final_str += old_spacing + '\t' + " \\\\\\\n"
+                if i == 0:
+                       final_str += "\t\hline \n"
+        final_str += old_spacing + '\t' + "\hline\n" + old_spacing +" \\end{tabular}\n$0"
+        snip.expand_anon(final_str)
+endglobal
+
+pre_expand "create_table(snip)"
+snippet "tab(le)?(\d+)x(\d+)" "Generate table of *rows* by *columns*" br
+endsnippet
+
+
 
