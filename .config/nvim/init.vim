@@ -13,19 +13,28 @@ set splitbelow
 let g:auto_save=0
 autocmd BufRead,BufNewFile   *.tex let g:auto_save=1
 
+let g:instant_username = "Meow :3"
+
 set conceallevel=2
 hi Conceal ctermbg=none
 
 inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
+nmap <Esc> :nohl<CR>
 nmap <C-n> :NvimTreeToggle<CR>
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+nnoremap / /\v
+cnoremap %s/ %s/\v
 
 call plug#begin()
 Plug 'Maan2003/lsp_lines.nvim'
+Plug 'NeogitOrg/neogit'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'kylechui/nvim-surround'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'jbyuki/instant.nvim'
 Plug '907th/vim-auto-save'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -87,6 +96,9 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 
 lua << END
+local neogit = require('neogit')
+neogit.setup {}
+
 require("nvim-surround").setup()
 
 vim.g.loaded_netrw = 1
@@ -180,6 +192,23 @@ local cmp = require'cmp'
   }
 
   require'lspconfig'.ltex.setup{}
+
+  local lspconfig = require 'lspconfig'
+    local configs = require 'lspconfig/configs'
+
+    if not configs.golangcilsp then
+        configs.golangcilsp = {
+            default_config = {
+                cmd = {'golangci-lint-langserver'},
+                root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
+                init_options = {
+                        command = { "golangci-lint", "run", "--enable-all", "--disable", "lll", "--out-format", "json", "--issues-exit-code=1" };
+                }
+            };
+        }
+    end
+    
+  require'lspconfig'.gopls.setup{}
 
   require'lspconfig'.pyright.setup{}
 
