@@ -40,6 +40,19 @@ snippet template "Basic template" b
 \end{document}
 endsnippet
 
+snippet probtemp "Problem template" b
+\documentclass{article}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath, amssymb, graphicx, mathtools, nicefrac}
+\usepackage[letterpaper, margin = 1in]{geometry}
+
+\begin{document}
+\section*{Lucian Chauvin | $1}
+\subsection*{Problem 1}
+	$0
+\end{document}
+endsnippet
+
 snippet beg "begin{} / end{}" bA
 \\begin{$1}
 	$0
@@ -106,6 +119,20 @@ snippet iff "iff" Ai
 \iff
 endsnippet
 
+context "math()"
+snippet forall "forall" Ai
+\forall
+endsnippet
+
+context "math()"
+snippet exists "exists" Ai
+\exists
+endsnippet
+
+context "math()"
+snippet nii "ni" Ai
+\ni
+endsnippet
 snippet mk "Math" wA
 $${1}$`!p
 if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
@@ -171,6 +198,13 @@ while True:
 snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
 `{$1}$0
 endsnippet
+
+context "math()"
+snippet 'nf' "nice frac" wrA
+\nicefrac{$1}{$2}$0
+endsnippet
+
+
 
 snippet sympy "sympyblock " w
 sympy $1 sympy$0
@@ -510,11 +544,6 @@ snippet set "set" wA
 \\{$1\\} $0
 endsnippet
 
-snippet || "mid" iA
- \mid 
-endsnippet
-
-
 context "math()"
 snippet cC "subset" Ai
 \subset 
@@ -525,8 +554,8 @@ snippet notin "not in " iA
 endsnippet
 
 context "math()"
-snippet in "in " iA
-\in 
+snippet inn "in " iA
+\in
 endsnippet
 
 snippet NN "n" iA

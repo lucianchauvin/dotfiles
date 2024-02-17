@@ -11,6 +11,7 @@ set relativenumber
 set splitright
 set splitbelow
 let g:auto_save=0
+set undofile
 autocmd BufRead,BufNewFile   *.tex let g:auto_save=1
 
 let g:instant_username = "Meow :3"
@@ -25,10 +26,9 @@ nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
-nnoremap / /\v
-cnoremap %s/ %s/\v
 
 call plug#begin()
+Plug 'petRUShka/vim-sage'
 Plug 'Maan2003/lsp_lines.nvim'
 Plug 'NeogitOrg/neogit'
 Plug 'nvim-telescope/telescope.nvim'
