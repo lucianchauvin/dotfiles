@@ -106,10 +106,12 @@ snippet pac "Package" b
 \usepackage[${1:options}]{${2:package}}$0
 endsnippet
 
+context "math()"
 snippet => "implies" Ai
 \implies
 endsnippet
 
+context "math()"
 snippet =< "implied by" Ai
 \impliedby
 endsnippet
@@ -141,6 +143,9 @@ else:
 	snip.rv = ''
 `$2
 endsnippet
+snippet verb "Math" wA
+\verb+$1+$0
+endsnippet
 
 snippet dm "Math" wA
 \[
@@ -158,14 +163,14 @@ snippet secs "section" wA
 \section{$1}$0
 endsnippet
 
-snippet subs "Subsection" wA
+snippet subss "Subsection" wA
 \subsection{$1}$0
 endsnippet
 
 snippet ali "Align" bA
 \begin{align*}
 	${1:${VISUAL}}
-.\end{align*}
+\end{align*}
 endsnippet
 
 
@@ -506,6 +511,12 @@ snippet <-> "leftrightarrow" iA
 \leftrightarrow
 endsnippet
 
+priority 200
+context "math()"
+snippet x-> "xrightarrow" iA
+\xrightarrow[$2]{$1}$0 
+endsnippet
+
 context "math()"
 snippet !> "mapsto" iA
 \mapsto 
@@ -725,7 +736,7 @@ def create_matrix(snip):
 
                 final_str += " \\\\\\\n"
 
-        final_str += old_spacing + "\\end{"+matrix_str+"}\n$0"
+        final_str += old_spacing + "\\end{"+matrix_str+"}$0"
 
         snip.expand_anon(final_str)
 endglobal
@@ -771,6 +782,3 @@ endglobal
 pre_expand "create_table(snip)"
 snippet "tab(le)?(\d+)x(\d+)" "Generate table of *rows* by *columns*" br
 endsnippet
-
-
-

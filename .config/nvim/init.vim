@@ -10,9 +10,8 @@ set nofoldenable
 set relativenumber
 set splitright
 set splitbelow
-let g:auto_save=0
 set undofile
-autocmd BufRead,BufNewFile   *.tex let g:auto_save=1
+autocmd InsertLeave *.tex update
 
 let g:instant_username = "Meow :3"
 
@@ -27,7 +26,13 @@ nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
 
+let g:vimtex_compiler_latexmk = {
+            \ 'out_dir' : 'texbuild',
+            \}
+
 call plug#begin()
+Plug 'eandrju/cellular-automaton.nvim'
+Plug 'tpope/vim-fugitive'
 Plug 'petRUShka/vim-sage'
 Plug 'Maan2003/lsp_lines.nvim'
 Plug 'NeogitOrg/neogit'
@@ -35,14 +40,14 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'kylechui/nvim-surround'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'jbyuki/instant.nvim'
-Plug '907th/vim-auto-save'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-tree/nvim-tree.lua'
-Plug 'terrortylor/nvim-comment'
 Plug 'neovim/nvim-lspconfig'
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'tpope/vim-commentary'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -106,12 +111,9 @@ vim.g.loaded_netrwPlugin = 1
 require("nvim-tree").setup()
 
 require('lsp_lines').setup()
--- Disable virtual_text since it's redundant due to lsp_lines.
 vim.diagnostic.config({
   virtual_text = false,
 })
-
-require('nvim_comment').setup()
 
 require('lualine').setup {
   options = {
@@ -126,11 +128,8 @@ require('lualine').setup {
 local cmp = require'cmp'
   cmp.setup({
     snippet = {
-      -- REQUIRED - you must specify a snippet engine
       expand = function(args)
         vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
         vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
       end,
     },
@@ -143,29 +142,25 @@ local cmp = require'cmp'
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), 
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
       { name = 'vsnip' }, -- For vsnip users.
-      -- { name = 'luasnip' }, -- For luasnip users.
       { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'snippy' }, -- For snippy users.
     }, {
       { name = 'buffer' },
     })
   })
 
-  -- Set configuration for specific filetype.
   cmp.setup.filetype('gitcommit', {
     sources = cmp.config.sources({
-      { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+      { name = 'git' }, 
     }, {
       { name = 'buffer' },
     })
   })
 
-  -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline({ '/', '?' }, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
@@ -173,7 +168,6 @@ local cmp = require'cmp'
     }
   })
 
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
@@ -184,13 +178,13 @@ local cmp = require'cmp'
   })
   require("nvim-web-devicons").setup{}
 
+  require "lsp_signature".setup({hint_prefix = ""})
+
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
- --  lua/lspconfig/server_configurations/SERVER_NAME.lua
   require('lspconfig')['clangd'].setup {
     capabilities = capabilities
   }
-
   require'lspconfig'.ltex.setup{}
 
   local lspconfig = require 'lspconfig'
@@ -209,15 +203,34 @@ local cmp = require'cmp'
     end
     
   require'lspconfig'.gopls.setup{}
-
   require'lspconfig'.pyright.setup{}
-
   require'lspconfig'.hls.setup{}
 
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    update_in_insert = true, 
-  })
+  vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    local opts = { buffer = ev.buf }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<space>f', function()
+      vim.lsp.buf.format { async = true }
+    end, opts)
+  end,
+})
 
   require'nvim-treesitter.configs'.setup{
     auto_install = true,
@@ -226,4 +239,19 @@ local cmp = require'cmp'
         disable = { "latex" },
     }
 }
+  vim.cmd(':set winhighlight=' .. cmp.config.window.bordered().winhighlight)
+
+     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+     vim.lsp.handlers.hover, {
+       border = "rounded",
+     }
+    )
+local function close_floating()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local config = vim.api.nvim_win_get_config(win)
+    if config.relative ~= "" then
+      vim.api.nvim_win_close(win, false)
+    end
+  end
+end
 END
