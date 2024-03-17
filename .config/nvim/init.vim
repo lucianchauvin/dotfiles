@@ -17,7 +17,8 @@ let g:instant_username = "Meow :3"
 
 set conceallevel=2
 hi Conceal ctermbg=none
-
+au TermOpen * setlocal nospell
+tnoremap <Esc> <C-\><C-n>
 inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
 nmap <Esc> :nohl<CR>
 nmap <C-n> :NvimTreeToggle<CR>
@@ -25,6 +26,9 @@ nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+
+"terminal
+map <Leader>tt :<C-r>=floor((1.0/5.0)*winheight(0))<CR>split<CR>:set winfixheight<CR>:term<CR>A
 
 let g:vimtex_compiler_latexmk = {
             \ 'out_dir' : 'texbuild',
@@ -102,7 +106,7 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 lua << END
 local neogit = require('neogit')
-neogit.setup {}
+neogit.setup()
 
 require("nvim-surround").setup()
 
@@ -125,7 +129,7 @@ require('lualine').setup {
   },
 }
 
-local cmp = require'cmp'
+local cmp = require('cmp')
   cmp.setup({
     snippet = {
       expand = function(args)
@@ -146,8 +150,8 @@ local cmp = require'cmp'
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
-      { name = 'vsnip' }, -- For vsnip users.
-      { name = 'ultisnips' }, -- For ultisnips users.
+      { name = 'vsnip' }, 
+      { name = 'ultisnips' }, 
     }, {
       { name = 'buffer' },
     })
@@ -178,17 +182,17 @@ local cmp = require'cmp'
   })
   require("nvim-web-devicons").setup{}
 
-  require "lsp_signature".setup({hint_prefix = ""})
+  require("lsp_signature").setup({hint_prefix = ""})
 
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
   require('lspconfig')['clangd'].setup {
     capabilities = capabilities
   }
-  require'lspconfig'.ltex.setup{}
+  require('lspconfig').ltex.setup{}
 
-  local lspconfig = require 'lspconfig'
-    local configs = require 'lspconfig/configs'
+  local lspconfig = require('lspconfig')
+  local configs = require('lspconfig/configs')
 
     if not configs.golangcilsp then
         configs.golangcilsp = {
@@ -202,9 +206,9 @@ local cmp = require'cmp'
         }
     end
     
-  require'lspconfig'.gopls.setup{}
-  require'lspconfig'.pyright.setup{}
-  require'lspconfig'.hls.setup{}
+  require('lspconfig').gopls.setup()
+  require('lspconfig').pyright.setup()
+  require('lspconfig').hls.setup()
 
   vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -232,7 +236,7 @@ local cmp = require'cmp'
   end,
 })
 
-  require'nvim-treesitter.configs'.setup{
+  require('nvim-treesitter.configs').setup{
     auto_install = true,
     highlight = {
         enable = true,
