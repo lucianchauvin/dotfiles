@@ -1,6 +1,6 @@
 set spell spelllang=en_us
 set clipboard+=unnamedplus
-set number!
+set number
 set shellcmdflag+=i
 set tabstop=4
 set shiftwidth=4
