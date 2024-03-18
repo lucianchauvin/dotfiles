@@ -250,6 +250,15 @@ require("lazy").setup({
     "ludovicchabant/vim-gutentags",
     "SirVer/ultisnips",
     "honza/vim-snippets",
+    {'Julian/lean.nvim',
+      event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
+      opts = {
+        lsp = {
+          on_attach = on_attach,
+        },
+        mappings = true,
+      }
+    },
 })
 
 vim.g.UltiSnipsExpandTrigger = '<tab>'

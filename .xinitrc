@@ -30,7 +30,7 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-xset r rate 300 50
+xset r rate 300 150
 
 # picom -b
 exec awesome
