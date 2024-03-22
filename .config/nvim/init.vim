@@ -14,6 +14,9 @@ set undofile
 autocmd InsertLeave *.tex update
 
 let g:instant_username = "Meow :3"
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 set conceallevel=2
 hi Conceal ctermbg=none
@@ -82,6 +85,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+{
+    "iamcco/markdown-preview.nvim", lazy = false,
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function() vim.fn["mkdp#util#install"]() end,
+},
     "eandrju/cellular-automaton.nvim",
     "tpope/vim-fugitive",
     "petRUShka/vim-sage",
@@ -125,7 +134,11 @@ require("lazy").setup({
               })
         end
     },
-    "nvim-tree/nvim-tree.lua",
+    {"nvim-tree/nvim-tree.lua",
+    config = function()
+    require("nvim-tree").setup{}
+    end
+    },
     {"neovim/nvim-lspconfig",
     config = function()
       require('lspconfig')['clangd'].setup{}
@@ -261,9 +274,6 @@ require("lazy").setup({
     },
 })
 
-vim.g.UltiSnipsExpandTrigger = '<tab>'
-vim.g.UltiSnipsJumpForwardTrigger = '<tab>'
-vim.g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
 vim.g.tex_flavor='latex'
 vim.g.vimtex_view_method='zathura'
 vim.g.vimtex_quickfix_mode=0
