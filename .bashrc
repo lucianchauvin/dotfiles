@@ -20,6 +20,8 @@ alias tests='make -C tests clean && make -C tests -j12 run-all -k'
 alias .='alacritty --working-directory=$(pwd) & disown'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias dutop='ncdu'
+alias yas='V'
+alias z='zathura' 
 
 function parse_git_branch() {
 	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`

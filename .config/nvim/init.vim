@@ -1,4 +1,5 @@
 set spell spelllang=en_us
+set hlsearch
 set clipboard+=unnamedplus
 set number
 set shellcmdflag+=i
@@ -29,9 +30,12 @@ nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+inoremap {<cr> {<cr>}<c-o>O
+inoremap [<cr> [<cr>]<c-o>O
+inoremap (<cr> (<cr>)<c-o>O
 
 "terminal
-map <Leader>tt :<C-r>=floor((1.0/5.0)*winheight(0))<CR>split<CR>:set winfixheight<CR>:term<CR>A
+map <Leader>tt :<C-r>=floor((1.0/5.0)*winheight(0)) + 1<CR>split<CR>:set winfixheight<CR>:term<CR>A
 
 let g:vimtex_compiler_latexmk = {
             \ 'out_dir' : 'texbuild',
@@ -93,6 +97,7 @@ require("lazy").setup({
 },
     "eandrju/cellular-automaton.nvim",
     "tpope/vim-fugitive",
+    "airblade/vim-gitgutter",
     "petRUShka/vim-sage",
     "Maan2003/lsp_lines.nvim",
     {"NeogitOrg/neogit", lazy = true},
@@ -160,6 +165,9 @@ require("lazy").setup({
         end
         
       require'lspconfig'.gopls.setup{}
+      require'lspconfig'.jdtls.setup{
+        cmd = {'/bin/jdtls'},
+      }
       require'lspconfig'.pyright.setup{}
       require'lspconfig'.hls.setup{}
 
@@ -249,7 +257,7 @@ require("lazy").setup({
           { name = 'cmdline' }
         })
       })
-      vim.cmd(':set winhighlight=' .. cmp.config.window.bordered().winhighlight)
+      vim.cmd("set winhighlight=Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual")
     end
     },
     "hrsh7th/cmp-nvim-lsp",
@@ -259,7 +267,6 @@ require("lazy").setup({
     "hrsh7th/cmp-vsnip",
     "hrsh7th/vim-vsnip",
     "lervag/vimtex",
-    "jiangmiao/auto-pairs",
     "ludovicchabant/vim-gutentags",
     "SirVer/ultisnips",
     "honza/vim-snippets",
