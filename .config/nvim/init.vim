@@ -1,4 +1,3 @@
-set spell spelllang=en_us
 set hlsearch
 set clipboard+=unnamedplus
 set number
@@ -13,6 +12,7 @@ set splitright
 set splitbelow
 set undofile
 autocmd InsertLeave *.tex update
+autocmd BufRead,BufNewFile *.tex setlocal spell
 
 let g:instant_username = "Meow :3"
 let g:UltiSnipsExpandTrigger = "<tab>"
@@ -97,6 +97,7 @@ require("lazy").setup({
 },
     "eandrju/cellular-automaton.nvim",
     "tpope/vim-fugitive",
+    "lsErichDonGubler/lsp_lines.nvim",
     "airblade/vim-gitgutter",
     "petRUShka/vim-sage",
     "Maan2003/lsp_lines.nvim",
@@ -288,7 +289,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 vim.diagnostic.config({
-  virtual_text = false,
+  virtual_text = true,
 })
 
  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
