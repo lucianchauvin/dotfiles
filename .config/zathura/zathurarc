@@ -19,3 +19,5 @@ set font size Normal
 set selection-clipboard clipboard
 set vertical-center
 set guioptions none
+
+set adjust-open "best-fit"

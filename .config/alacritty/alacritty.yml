@@ -2,3 +2,5 @@ import:
   - ~/.config/alacritty/gruv.yaml
 window:
   opacity: 1
+font:
+  size: 11
