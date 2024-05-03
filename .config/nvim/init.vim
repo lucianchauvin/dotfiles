@@ -5,9 +5,9 @@ set shellcmdflag+=i
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set completeopt+=menuone,noinsert,noselect,preview
-set nofoldenable
-set relativenumber
+set completeopt+=menuone,noinsert,noselect,preview 
+set nofoldenable 
+set relativenumber 
 set splitright
 set splitbelow
 set undofile
@@ -97,10 +97,8 @@ require("lazy").setup({
 },
     "eandrju/cellular-automaton.nvim",
     "tpope/vim-fugitive",
-    "lsErichDonGubler/lsp_lines.nvim",
     "airblade/vim-gitgutter",
     "petRUShka/vim-sage",
-    "Maan2003/lsp_lines.nvim",
     {"NeogitOrg/neogit", lazy = true},
     "nvim-telescope/telescope.nvim",
     {"kylechui/nvim-surround",
@@ -288,9 +286,6 @@ vim.g.vimtex_quickfix_mode=0
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.diagnostic.config({
-  virtual_text = true,
-})
 
  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
  vim.lsp.handlers.hover, {

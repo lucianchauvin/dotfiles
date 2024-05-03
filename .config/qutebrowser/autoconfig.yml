@@ -6,5 +6,15 @@
 
 config_version: 2
 settings:
+  content.javascript.clipboard:
+    global: access
+  content.media.audio_capture:
+    https://app.zoom.us: true
+  content.media.video_capture:
+    https://app.zoom.us: true
+  content.notifications.enabled:
+    https://app.zoom.us: true
+    https://calendar.google.com: true
   content.register_protocol_handler:
+    https://calendar.google.com?cid=%25s: true
     https://mail.google.com?extsrc=mailto&url=%25s: true

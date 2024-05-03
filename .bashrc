@@ -7,8 +7,10 @@
 alias ls='ls --color=auto -lh --group-directories-first'
 alias lsa='ls --color=auto -lh -a --group-directories-first'
 alias grep='grep --color=auto'
-alias gbr='g++ -g -std=c++20 -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined *.cpp; ./a.out'
+alias gbr='g++ -g -std=c++20 -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined *.cpp *.c; ./a.out'
 alias grr='g++ -std=c++20 -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined -O9 *.cpp; ./a.out'
+alias javacfx="javac --module-path $PATH_TO_FX --add-modules javafx.controls"
+alias javafx="java --module-path $PATH_TO_FX --add-modules javafx.controls"
 alias cls='clear'
 alias wifi='iwctl'
 alias blth='sudo systemctl start bluetooth'
@@ -20,8 +22,8 @@ alias tests='make -C tests clean && make -C tests -j12 run-all -k'
 alias .='alacritty --working-directory=$(pwd) & disown'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias dutop='ncdu'
-alias yas='V'
 alias z='zathura' 
+alias nethack='ssh nethack@alt.org'
 
 function parse_git_branch() {
 	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
@@ -74,7 +76,6 @@ RED="\[\e[91m\]"
 ENDCOLOR="\[\e[0m\]"
 GREEN="\[\e[32m\]"
 export PS1="${RED}[\u@\h \W]${GREEN}\`parse_git_branch\`${RED}\$${ENDCOLOR} "
-
 export EDITOR="nvim"
 
 HISTSIZE=-1
@@ -102,3 +103,4 @@ duls () {
 
 # Created by `pipx` on 2024-02-08 04:44:56
 export PATH="$PATH:/home/lucian/.local/bin"
+export PATH_TO_FX="/usr/lib/jvm/java-22-openjfx/lib"

@@ -1,6 +1,7 @@
 [user]
 	email = lucianchauvin@gmail.com
 	name = Lucian Chauvin
+	signingkey = 39817AD03A4ADDD4D388985C44E6889FAF932B0B
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
@@ -11,3 +12,5 @@
 	editor = nvim
 [init]
 	defaultBranch = master
+[commit]
+	gpgsign = true

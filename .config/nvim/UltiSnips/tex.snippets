@@ -43,13 +43,53 @@ endsnippet
 snippet probtemp "Problem template" b
 \documentclass{article}
 \usepackage[shortlabels]{enumitem}
-\usepackage{amsmath, amssymb, graphicx, mathtools, nicefrac}
+\usepackage{amsmath, amssymb, graphicx, mathtools, nicefrac, fancyhdr}
 \usepackage[letterpaper, margin = 1in]{geometry}
 
+\newcommand{\hwCourse}{$1}
+\newcommand{\hwName}{$2}
+\newcommand{\hwAuthor}{$3}
+
+\title{\hwCourse: \hwName}
+\author{\hwAuthor}
+
+\usepackage{titling}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
+
+\makeatletter
+ \renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\makeatletter
+\newcommand{\subalign}[1]{%
+  \vcenter{% \Let@ \restore@math@cr \default@tag \baselineskip\fontdimen10 \scriptfont\tw@ \advance\baselineskip\fontdimen12 \scriptfont\tw@
+    \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
+    \lineskiplimit\lineskip
+    \ialign{\hfil$\m@th\scriptstyle##$&$\m@th\scriptstyle{}##$\hfil\crcr
+      #1\crcr
+    }%
+  }%
+}
+\makeatother
+
 \begin{document}
-\section*{Lucian Chauvin | $1}
-\subsection*{Problem 1}
-	$0
+\maketitle
+\thispagestyle{empty}
+\newpage
+\pagestyle{fancy}
+\lhead{\hwCourse}
+\chead{\hwName}
+\rhead{\hwAuthor}
+\cfoot{\thepage}
+\addtocounter{page}{-1}
+
+\subsection*{$4}
+$0
+
 \end{document}
 endsnippet
 
@@ -82,6 +122,12 @@ snippet fig "Figure environment" b
 	\caption{${4:$3}}
 	\label{fig:${5:${3/\W+/-/g}}}
 \end{figure}
+endsnippet
+
+snippet imgg "image" b
+\begin{center}
+	\includegraphics[$1]{$2}
+\end{center}$0
 endsnippet
 
 snippet enum "Enumerate" bA
@@ -163,8 +209,18 @@ snippet secs "section" wA
 \section{$1}$0
 endsnippet
 
+snippet intc "Make multi line cell" wA
+\begin{tabular}[x]{@{}l@{}}$1\end{tabular}$0
+endsnippet
+
 snippet subss "Subsection" wA
-\subsection{$1}$0
+\subsection{$1}
+$0
+endsnippet
+
+snippet subses "Subsection" wA
+\subsection*{$1}
+$0
 endsnippet
 
 snippet ali "Align" bA
@@ -504,6 +560,12 @@ snippet -> "rightarrow" iA
 \rightarrow 
 endsnippet
 
+priority 100
+context "math()"
+snippet <- "leftarrow" iA
+\leftarrow 
+endsnippet
+
 priority 200
 context "math()"
 snippet <-> "leftrightarrow" iA
@@ -551,7 +613,7 @@ endsnippet
 
 context "math()"
 snippet set "set" wA
-\\{$1\\} $0
+\left\\{$1\right\\} $0
 endsnippet
 
 context "math()"
@@ -652,6 +714,12 @@ context "math()"
 snippet "bar" "bar" riA
 \overline{$1}$0
 endsnippet
+
+context "math()"
+snippet vec "vector" iA
+\vec{$1}$0
+endsnippet
+
 
 priority 100
 context "math()"
