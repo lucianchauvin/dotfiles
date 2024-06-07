@@ -197,18 +197,19 @@ local bat = lain.widget.bat({
 -- }
 
 -- ALSA volume
-theme.volume = lain.widget.pulse({
+local volume = lain.widget.pulse({
     settings = function()
         header = " vol "
-        vlevel  = volume_now.level
-
-        if volume_now.status == "yes" then
+        vlevel = math.floor((volume_now.left + volume_now.right)//2)
+        if vlevel == nil then
+            vlevel = "N/A"
+        end
+        if volume_now.muted == "yes" then
             vlevel = vlevel .. "M "
         else
            vlevel = vlevel .. " "
         end
         widget:set_markup(markup.font(theme.font, markup(theme.tasklist_maincolor, header) .. vlevel))
-
     end
 })
 
@@ -290,7 +291,7 @@ function theme.at_screen_connect(s)
             bar_spr,
             net.widget,
             bar_spr,
-            theme.volume.widget,
+            volume.widget,
             bar_spr,
             bat.widget,
             bar_spr,

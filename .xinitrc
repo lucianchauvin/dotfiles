@@ -2,6 +2,8 @@
 
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
+xrandr --output eDP-1 --scale 1.25x1.25
+xrandr --output DP-2 --scale 1.25x1.25
 
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
@@ -33,4 +35,4 @@ fi
 xset r rate 300 150
 
 # picom -b
-exec awesome
+exec awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr

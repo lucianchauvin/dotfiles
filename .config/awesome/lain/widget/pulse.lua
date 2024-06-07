@@ -18,11 +18,11 @@ local function factory(args)
     args           = args or {}
 
     local pulse    = { widget = args.widget or wibox.widget.textbox(), device = "N/A" }
-    local timeout  = .1
+    local timeout  = .2
     local settings = args.settings or function() end
 
     pulse.devicetype = args.devicetype or "sink"
-    pulse.cmd = args.cmd or "pacmd list-" .. pulse.devicetype .. "s | sed -n -e '/*/,$!d' -e '/index/p' -e '/base volume/d' -e '/volume:/p' -e '/muted:/p' -e '/device\\.string/p' | grep -A 2 \"*\""
+    pulse.cmd = args.cmd or "pacmd list-" .. pulse.devicetype .. "s | sed -n -e '/*/,$!d' -e '/index/p' -e '/base volume/d' -e '/volume:/p' -e '/muted:/p' -e '/device\\.string/p'"
 
     function pulse.update()
         helpers.async({ shell, "-c", type(pulse.cmd) == "string" and pulse.cmd or pulse.cmd() },
@@ -42,14 +42,8 @@ local function factory(args)
                 ch = ch + 1
             end
 
-            volume_now.left  = volume_now.channel[1] or "N/A"
-            volume_now.right = volume_now.channel[2] or "N/A"
-
-            volume_now.level = ((volume_now.left ~= "N/A" and volume_now.right ~= "N/A") and (volume_now.left + volume_now.right)//2 or "N/A")
-            volume_now.status = volume_now.muted
-
-
-
+            volume_now.left  = volume_now.channel[1]
+            volume_now.right = volume_now.channel[2]
             widget = pulse.widget
             settings()
         end)

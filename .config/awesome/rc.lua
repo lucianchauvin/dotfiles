@@ -53,25 +53,25 @@ end
 ---{{{ Autostart windowless processes
 
 -- This function will run once every time Awesome is started
-local function run_once(cmd_arr)
-    for _, cmd in ipairs(cmd_arr) do
-        awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s)", cmd, cmd))
-    end
-    awful.spawn.with_shell('sh ~/.config/awesome/autorun.sh')
-end
+-- local function run_once(cmd_arr)
+--     for _, cmd in ipairs(cmd_arr) do
+--         awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s)", cmd, cmd))
+--     end
+--     awful.spawn.with_shell('sh ~/.config/awesome/autorun.sh')
+-- end
 
-run_once({ "urxvtd", "unclutter -root" }) -- comma-separated entries
+-- run_once({ "urxvtd", "unclutter -root" }) -- comma-separated entries
 
-awful.spawn.with_shell("blueman -startintray")
+-- awful.spawn.with_shell("blueman-manager -startintray")
 
 -- This function implements the XDG autostart specification
-awful.spawn.with_shell(
-    'if (xrdb -query | grep -q "^awesome\\.started:\\s*true$"); then exit; fi;' ..
-    'xrdb -merge <<< "awesome.started:true";' ..
-    'exec picom -b'
-    ..
-    'dex --environment Awesome --autostart --search-paths "$XDG_CONFIG_DIRS/autostart:$XDG_CONFIG_HOME/autostart"' -- https://github.com/jceb/dex
-)
+-- awful.spawn.with_shell(
+--     'if (xrdb -query | grep -q "^awesome\\.started:\\s*true$"); then exit; fi;' ..
+--     'xrdb -merge <<< "awesome.started:true";' ..
+--     'exec picom -b'
+--     ..
+--     'dex --environment Awesome --autostart --search-paths "$XDG_CONFIG_DIRS/autostart:$XDG_CONFIG_HOME/autostart"' -- https://github.com/jceb/dex
+-- )
 --]]:
 
 -- }}}

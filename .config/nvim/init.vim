@@ -1,6 +1,7 @@
 set hlsearch
 set clipboard+=unnamedplus
 set number
+colorscheme vim
 set shellcmdflag+=i
 set tabstop=4
 set shiftwidth=4
@@ -123,7 +124,6 @@ require("lazy").setup({
         }
     end
     },
-    "kyazdani42/nvim-web-devicons",
     "nvim-tree/nvim-web-devicons",
     {"nvim-treesitter/nvim-treesitter", 
         build = ":TSUpdate",
@@ -285,6 +285,7 @@ vim.g.vimtex_view_method='zathura'
 vim.g.vimtex_quickfix_mode=0
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.o.termguicolors = false
 
 
  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
