@@ -42,8 +42,10 @@ local function factory(args)
                 ch = ch + 1
             end
 
-            volume_now.left  = volume_now.channel[1]
-            volume_now.right = volume_now.channel[2]
+            volume_now.left  = volume_now.channel[1] or "N/A"
+            volume_now.right = volume_now.channel[2] or "N/A"
+
+
             widget = pulse.widget
             settings()
         end)

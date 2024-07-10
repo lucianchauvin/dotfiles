@@ -13,7 +13,6 @@ set splitright
 set splitbelow
 set undofile
 autocmd InsertLeave *.tex update
-autocmd BufRead,BufNewFile *.tex setlocal spell
 
 let g:instant_username = "Meow :3"
 let g:UltiSnipsExpandTrigger = "<tab>"

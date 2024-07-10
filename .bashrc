@@ -4,7 +4,7 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-alias ls='ls --color=auto -lh --group-directories-first'
+alias ls='ls --color=auto -lhtr --group-directories-first'
 alias lsa='ls --color=auto -lh -a --group-directories-first'
 alias grep='grep --color=auto'
 alias gbr='g++ -g -std=c++20 -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined *.cpp *.c; ./a.out'
@@ -15,6 +15,7 @@ alias cls='clear'
 alias wifi='iwctl'
 alias blth='sudo systemctl start bluetooth'
 alias copy='xclip -selection clipboard'
+alias vim="nvim"
 alias n='nvim'
 alias google='google-chrome-stable'
 alias g='google-chrome-stable'
@@ -77,6 +78,7 @@ ENDCOLOR="\[\e[0m\]"
 GREEN="\[\e[32m\]"
 export PS1="${RED}[\u@\h \W]${GREEN}\`parse_git_branch\`${RED}\$${ENDCOLOR} "
 export EDITOR="nvim"
+export GPG_TTY=$(tty)
 
 HISTSIZE=-1
 HISTFILESIZE=-1
@@ -102,5 +104,9 @@ duls () {
 }
 
 # Created by `pipx` on 2024-02-08 04:44:56
-export PATH="$PATH:/home/lucian/.local/bin"
+export PATH="$PATH:/home/lucian/.local/bin:/opt/scorep/bin"
 export PATH_TO_FX="/usr/lib/jvm/java-22-openjfx/lib"
+
+# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ screen ]] && [ -z "$TERM" ]; then
+#     exec tmux
+# fi
