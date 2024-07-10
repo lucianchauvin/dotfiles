@@ -251,8 +251,12 @@ globalkeys = mytable.join(
     awful.key({ altkey }, "p", function() os.execute("scrot /tmp/%b%d::%H%M%S.png -e 'xclip -selection clipboard -t image/png -i $f; rm $f'") end,
               {description = "take a screenshot", group = "hotkeys"}),
 
-    -- X screen locker
-    awful.key({ altkey, "Control" }, "l", function () os.execute('~/.config/rofi/powermenu/type-2/powermenu.sh') end,
+    -- X screen power menu
+    awful.key({ altkey, "Control"}, "Delete", function () os.execute('~/.config/rofi/powermenu/type-2/powermenu.sh') end,
+              {description = "power options", group = "hotkeys"}),
+
+    -- X screensaver
+    awful.key({ altkey, "Control"}, "l", function () os.execute('xscreensaver-command -lock') end,
               {description = "power options", group = "hotkeys"}),
 
     -- Show help

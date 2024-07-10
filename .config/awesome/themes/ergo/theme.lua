@@ -87,7 +87,7 @@ local markup = lain.util.markup
 local gray   = theme.taglist_fg_focus
 
 -- Textclock
-local mytextclock = wibox.widget.textclock(" %H:%M ")
+local mytextclock = wibox.widget.textclock("%a %b %d %I:%M ")
 mytextclock.font = theme.font
 
 -- Calendar

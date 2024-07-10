@@ -34,5 +34,6 @@ fi
 
 xset r rate 300 150
 
-# picom -b
+pticom -b
+xss-lock -- xscreensaver-command -lock &
 exec awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr
