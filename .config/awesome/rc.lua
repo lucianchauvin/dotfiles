@@ -255,6 +255,10 @@ globalkeys = mytable.join(
     awful.key({ altkey, "Control"}, "Delete", function () os.execute('~/.config/rofi/powermenu/type-2/powermenu.sh') end,
               {description = "power options", group = "hotkeys"}),
 
+    -- X shutdown
+    awful.key({ altkey, "Control"}, "s", function () os.execute('systemctl poweroff') end,
+              {description = "power options", group = "hotkeys"}),
+
     -- X screensaver
     awful.key({ altkey, "Control"}, "l", function () os.execute('xscreensaver-command -lock') end,
               {description = "power options", group = "hotkeys"}),
