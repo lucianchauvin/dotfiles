@@ -7,7 +7,7 @@
 alias ls='ls --color=auto -lhtr --group-directories-first'
 alias lsa='ls --color=auto -lh -a --group-directories-first'
 alias grep='grep --color=auto'
-alias gbr='g++ -g -std=c++20 -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined *.cpp *.c; ./a.out'
+alias gbr='g++ -g -std=c++20 -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined *.cpp; ./a.out'
 alias grr='g++ -std=c++20 -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined -O9 *.cpp; ./a.out'
 alias javacfx="javac --module-path $PATH_TO_FX --add-modules javafx.controls"
 alias javafx="java --module-path $PATH_TO_FX --add-modules javafx.controls"
