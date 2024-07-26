@@ -80,6 +80,8 @@ export PS1="${RED}[\u@\h \W]${GREEN}\`parse_git_branch\`${RED}\$${ENDCOLOR} "
 export EDITOR="nvim"
 export GPG_TTY=$(tty)
 
+set -o vi
+
 HISTSIZE=-1
 HISTFILESIZE=-1
 bind '"\e[A":history-search-backward'
