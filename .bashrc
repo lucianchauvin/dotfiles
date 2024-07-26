@@ -4,6 +4,9 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux
+fi
 alias ls='ls --color=auto -lhtr --group-directories-first'
 alias lsa='ls --color=auto -lh -a --group-directories-first'
 alias grep='grep --color=auto'
@@ -108,7 +111,3 @@ duls () {
 # Created by `pipx` on 2024-02-08 04:44:56
 export PATH="$PATH:/home/lucian/.local/bin:/opt/scorep/bin"
 export PATH_TO_FX="/usr/lib/jvm/java-22-openjfx/lib"
-
-# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ screen ]] && [ -z "$TERM" ]; then
-#     exec tmux
-# fi
