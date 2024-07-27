@@ -1,10 +1,3 @@
---[[
-
-     Steamburn Awesome WM theme 2.0
-     github.com/pgagnidze
-
---]]
-
 local gears = require("gears")
 local lain  = require("lain")
 local awful = require("awful")
@@ -18,7 +11,7 @@ local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/ergo"
 theme.wallpaper                                 = theme.dir .. "/wall.jpg"
-theme.font                                      = "NotoSansM Nerd Font Mono 11"
+theme.font                                      = "NotoSansM Nerd Font Mono 12.5"
 theme.fg_normal                                 = "#EBDBB2"
 theme.fg_focus                                  = "#EBDBB2"
 theme.fg_urgent                                 = "#EBDBB2"
@@ -87,7 +80,7 @@ local markup = lain.util.markup
 local gray   = theme.taglist_fg_focus
 
 -- Textclock
-local mytextclock = wibox.widget.textclock("%a %b %d %I:%M ")
+local mytextclock = wibox.widget.textclock("%a %b %d %I:%M")
 mytextclock.font = theme.font
 
 -- Calendar
@@ -267,7 +260,7 @@ function theme.at_screen_connect(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(30) })
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(25) })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -297,7 +290,8 @@ function theme.at_screen_connect(s)
             bar_spr,
             --theme.mpd.widget,
             --theme.mail.widget,
-            mytextclock
+            mytextclock,
+            spr,
         },
     }
 end

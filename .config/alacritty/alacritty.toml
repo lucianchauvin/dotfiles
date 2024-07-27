@@ -2,3 +2,4 @@ import = ["/home/lucian/.config/alacritty/gruv.toml"]
 
 [window]
 opacity = 1
+decorations = "None"

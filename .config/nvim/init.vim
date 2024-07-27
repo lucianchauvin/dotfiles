@@ -14,6 +14,9 @@ set splitbelow
 set undofile
 autocmd InsertLeave *.tex update
 
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
 let g:instant_username = "Meow :3"
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
@@ -26,6 +29,7 @@ tnoremap <Esc> <C-\><C-n>
 inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
 nmap <Esc> :nohl<CR>
 nmap <C-n> :NvimTreeToggle<CR>
+nmap <C-m> :TagbarToggle<CR>
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
@@ -277,6 +281,24 @@ require("lazy").setup({
         mappings = true,
       }
     },
+    {
+      "christoomey/vim-tmux-navigator",
+      cmd = {
+        "TmuxNavigateLeft",
+        "TmuxNavigateDown",
+        "TmuxNavigateUp",
+        "TmuxNavigateRight",
+        "TmuxNavigatePrevious",
+      },
+      keys = {
+        { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+        { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+        { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+        { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+        { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+      },
+      "preservim/tagbar",
+    }
 })
 
 vim.g.tex_flavor='latex'
@@ -285,8 +307,6 @@ vim.g.vimtex_quickfix_mode=0
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.o.termguicolors = false
-vim.g.mapleader = "<Space>"
-
 
  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
  vim.lsp.handlers.hover, {
