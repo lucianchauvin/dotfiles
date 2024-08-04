@@ -2,7 +2,7 @@ set hlsearch
 set clipboard+=unnamedplus
 set number
 colorscheme vim
-set shellcmdflag+=i
+" set shellcmdflag+=i
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -15,7 +15,7 @@ set undofile
 autocmd InsertLeave *.tex update
 
 nnoremap <SPACE> <Nop>
-let mapleader=" "
+" let mapleader=" "
 
 let g:instant_username = "Meow :3"
 let g:UltiSnipsExpandTrigger = "<tab>"
@@ -34,6 +34,8 @@ nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+nmap <C-o> <C-O>
+nmap <C-i> <C-I>
 inoremap {<cr> {<cr>}<c-o>O
 inoremap [<cr> [<cr>]<c-o>O
 inoremap (<cr> (<cr>)<c-o>O
@@ -41,10 +43,7 @@ inoremap (<cr> (<cr>)<c-o>O
 "terminal
 map <leader>tt :<C-r>=floor((1.0/5.0)*winheight(0)) + 1<CR>split<CR>:set winfixheight<CR>:term<CR>A
 
-let g:vimtex_compiler_latexmk = {
-            \ 'out_dir' : 'texbuild',
-            \}
-
+let g:vimtex_compiler_latexmk = {'out_dir' : 'texbuild',}
 
 function! s:swap_lines(n1, n2)
     let line1 = getline(a:n1)
@@ -77,7 +76,6 @@ noremap <silent> <A-up> :call <SID>swap_up()<CR>
 noremap <silent> <A-down> :call <SID>swap_down()<CR>
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
-
 lua << END
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -93,19 +91,13 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-{
-    "iamcco/markdown-preview.nvim", lazy = false,
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    build = function() vim.fn["mkdp#util#install"]() end,
-},
-    "eandrju/cellular-automaton.nvim",
-    "tpope/vim-fugitive",
-    "airblade/vim-gitgutter",
-    "petRUShka/vim-sage",
+    {"eandrju/cellular-automaton.nvim", lazy = true},
+    {"tpope/vim-fugitive", lazy = true},
+    {"airblade/vim-gitgutter", lazy = true},
+    {"petRUShka/vim-sage", lazy = true},
     {"NeogitOrg/neogit", lazy = true},
     "nvim-telescope/telescope.nvim",
-    {"kylechui/nvim-surround",
+    {"kylechui/nvim-surround", lazy = true,
     version = "*", 
     event = "VeryLazy",
     config = function()
@@ -113,7 +105,6 @@ require("lazy").setup({
     end
     },
     "nvim-lua/plenary.nvim",
-    "jbyuki/instant.nvim",
     {"nvim-lualine/lualine.nvim",
     config = function()
         require('lualine').setup {
@@ -128,7 +119,7 @@ require("lazy").setup({
     end
     },
     "nvim-tree/nvim-web-devicons",
-    {"nvim-treesitter/nvim-treesitter", 
+    {"nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = function () 
             local configs = require("nvim-treesitter.configs")
@@ -142,9 +133,9 @@ require("lazy").setup({
         end
     },
     {"nvim-tree/nvim-tree.lua",
-    config = function()
-    require("nvim-tree").setup{}
-    end
+        config = function()
+        require("nvim-tree").setup{}
+        end
     },
     {"neovim/nvim-lspconfig",
     config = function()
@@ -158,7 +149,7 @@ require("lazy").setup({
             configs.golangcilsp = {
                 default_config = {
                     cmd = {'golangci-lint-langserver'},
-                    root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
+        root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
                     init_options = {
                             command = { "golangci-lint", "run", "--enable-all", "--disable", "lll", "--out-format", "json", "--issues-exit-code=1" };
                     }
@@ -176,12 +167,27 @@ require("lazy").setup({
       vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('UserLspConfig', {}),
       callback = function(ev)
+        vim.keymap.set("n", "K", function()
+            local base_win_id = vim.api.nvim_get_current_win()
+            local windows = vim.api.nvim_tabpage_list_wins(0)
+            for _, win_id in ipairs(windows) do
+                if win_id ~= base_win_id then
+                    local win_cfg = vim.api.nvim_win_get_config(win_id)
+                    if win_cfg.relative == "win" and win_cfg.win == base_win_id then
+                        vim.api.nvim_win_close(win_id, {})
+                        return
+                    end
+                end
+            end
+            vim.lsp.buf.hover()
+        end, { remap = false, silent = true, buffer = ev.buf, desc = "Toggle hover" })
+
         vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
         local opts = { buffer = ev.buf }
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+--        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
         vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
         vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
@@ -212,7 +218,6 @@ require("lazy").setup({
       cmp.setup({
         snippet = {
           expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
             vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
           end,
         },
