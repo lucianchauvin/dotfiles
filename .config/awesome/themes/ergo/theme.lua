@@ -18,7 +18,7 @@ theme.fg_urgent                                 = "#EBDBB2"
 theme.bg_normal                                 = "#282828"
 theme.bg_focus                                  = "#313131"
 theme.bg_urgent                                 = "#282828"
-theme.border_width                              = dpi(0)
+-- theme.border_width                              = dpi(0)
 theme.border_normal                             = "#3F3F3F"
 theme.border_focus                              = "#EBDBB2"
 theme.border_marked                             = "#3F3F3F"
@@ -47,7 +47,7 @@ theme.layout_txt_max                            = "[m]"
 theme.layout_txt_fullscreen                     = "[F]"
 theme.layout_txt_magnifier                      = "[M]"
 theme.layout_txt_floating                       = "[*]"
-theme.useless_gap                               = dpi(0)
+-- theme.useless_gap                               = dpi(0)
 theme.titlebar_close_button_normal              = theme.default_dir.."/titlebar/close_normal.png"
 theme.titlebar_close_button_focus               = theme.default_dir.."/titlebar/close_focus.png"
 theme.titlebar_minimize_button_normal           = theme.default_dir.."/titlebar/minimize_normal.png"
@@ -260,7 +260,7 @@ function theme.at_screen_connect(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(25) })
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(25.85915492957746586)})
 
     -- Add widgets to the wibox
     s.mywibox:setup {
