@@ -1,10 +1,3 @@
---[[
-
-     Licensed under GNU General Public License v2
-      * (c) 2016, Luca CPZ
-
---]]
-
 local helpers = require("lain.helpers")
 local shell   = require("awful.util").shell
 local wibox   = require("wibox")
@@ -21,31 +14,24 @@ local function factory(args)
     local timeout  = .2
     local settings = args.settings or function() end
 
-    pulse.devicetype = args.devicetype or "sink"
-    pulse.cmd = args.cmd or "pacmd list-" .. pulse.devicetype .. "s | sed -n -e '/*/,$!d' -e '/index/p' -e '/base volume/d' -e '/volume:/p' -e '/muted:/p' -e '/device\\.string/p'"
+    -- Command to get the default sink volume and mute status
+    pulse.cmd = "pactl get-sink-volume `pactl get-default-sink`; pactl get-sink-mute `pactl get-default-sink`"
 
     function pulse.update()
         helpers.async({ shell, "-c", type(pulse.cmd) == "string" and pulse.cmd or pulse.cmd() },
         function(s)
+            -- Parsing volume for front-left and front-right channels
+            local left_volume  = string.match(s, "front%-left:.-(%d+)%%") or "N/A"
+            local right_volume = string.match(s, "front%-right:.-(%d+)%%") or "N/A"
+            local muted        = string.match(s, "Mute: (%S+)") or "N/A"
+
             volume_now = {
-                index  = string.match(s, "index: (%S+)") or "N/A",
-                device = string.match(s, "device.string = \"(%S+)\"") or "N/A",
-                muted  = string.match(s, "muted: (%S+)") or "N/A"
+                left  = left_volume,
+                right = right_volume,
+                muted = muted
             }
 
-            pulse.device = volume_now.index
-
-            local ch = 1
-            volume_now.channel = {}
-            for v in string.gmatch(s, ":.-(%d+)%%") do
-                volume_now.channel[ch] = v
-                ch = ch + 1
-            end
-
-            volume_now.left  = volume_now.channel[1] or "N/A"
-            volume_now.right = volume_now.channel[2] or "N/A"
-
-
+            -- Update the widget
             widget = pulse.widget
             settings()
         end)

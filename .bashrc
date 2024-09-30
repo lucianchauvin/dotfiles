@@ -23,7 +23,6 @@ alias n='nvim'
 alias google='google-chrome-stable'
 alias g='google-chrome-stable'
 alias tests='make -C tests clean && make -C tests -j12 run-all -k'
-alias .='alacritty --working-directory=$(pwd) & disown'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias dutop='ncdu'
 alias z='zathura' 
@@ -116,3 +115,6 @@ duls () {
 # Created by `pipx` on 2024-02-08 04:44:56
 export PATH="$PATH:/home/lucian/.local/bin:/opt/scorep/bin"
 export PATH_TO_FX="/usr/lib/jvm/java-22-openjfx/lib"
+
+export GDK_SCALE=2
+export GDK_DPI_SCALE=0.5

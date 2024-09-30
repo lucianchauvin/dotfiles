@@ -252,7 +252,10 @@ globalkeys = mytable.join(
               {description = "take a screenshot", group = "hotkeys"}),
 
     -- X screen power menu
-    awful.key({ altkey, "Control"}, "Delete", function () os.execute('~/.config/rofi/powermenu/type-2/powermenu.sh') end,
+    awful.key({ altkey, "Control"}, "Delete", function () os.execute('poweroff') end,
+              {description = "power options", group = "hotkeys"}),
+
+    awful.key({ altkey, "Control"}, "h", function () os.execute('systemctl hibernate') end,
               {description = "power options", group = "hotkeys"}),
 
     -- X shutdown

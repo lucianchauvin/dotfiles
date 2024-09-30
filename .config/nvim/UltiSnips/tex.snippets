@@ -43,15 +43,8 @@ endsnippet
 snippet probtemp "Problem template" b
 \documentclass{article}
 \usepackage[shortlabels]{enumitem}
-\usepackage{amsmath, amssymb, graphicx, mathtools, nicefrac, fancyhdr}
+\usepackage{amsmath, amsthm, amssymb, graphicx, mathtools, nicefrac, fancyhdr}
 \usepackage[letterpaper, margin = 1in]{geometry}
-
-\newcommand{\hwCourse}{$1}
-\newcommand{\hwName}{$2}
-\newcommand{\hwAuthor}{$3}
-
-\title{\hwCourse: \hwName}
-\author{\hwAuthor}
 
 \usepackage{titling}
 \renewcommand\maketitlehooka{\null\mbox{}\vfill}
@@ -77,17 +70,11 @@ snippet probtemp "Problem template" b
 \makeatother
 
 \begin{document}
-\maketitle
-\thispagestyle{empty}
-\newpage
-\pagestyle{fancy}
-\lhead{\hwCourse}
-\chead{\hwName}
-\rhead{\hwAuthor}
-\cfoot{\thepage}
-\addtocounter{page}{-1}
 
-\subsection*{$4}
+\section*{$1}
+Lucian Chauvin 133003371
+
+\subsection*{$2}
 $0
 
 \end{document}
@@ -233,6 +220,11 @@ endsnippet
 context "math()"
 snippet // "Fraction" iA
 \\frac{$1}{$2}$0
+endsnippet
+
+context "math()"
+snippet choose "choose" iA
+{$1 \choose $2}$0
 endsnippet
 
 snippet / "Fraction" i

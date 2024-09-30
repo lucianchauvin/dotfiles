@@ -14,8 +14,7 @@ set splitbelow
 set undofile
 autocmd InsertLeave *.tex update
 
-nnoremap <SPACE> <Nop>
-" let mapleader=" "
+" inoremap <CR> <CR>
 
 let g:instant_username = "Meow :3"
 let g:UltiSnipsExpandTrigger = "<tab>"
@@ -36,12 +35,20 @@ nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
 nmap <C-o> <C-O>
 nmap <C-i> <C-I>
-inoremap {<cr> {<cr>}<c-o>O
-inoremap [<cr> [<cr>]<c-o>O
-inoremap (<cr> (<cr>)<c-o>O
+
+nmap j gj
+nmap k gk
+
+inoremap {<CR> {<CR>}<C-o>O 
+inoremap [<CR> [<CR>]<C-o>O
+inoremap (<CR> (<CR>)<C-o>O
 
 "terminal
-map <leader>tt :<C-r>=floor((1.0/5.0)*winheight(0)) + 1<CR>split<CR>:set winfixheight<CR>:term<CR>A
+map <leader>tt :<C-r>=floor((1.0/3.0)*winheight(0)) + 1<CR>split<CR>:set winfixheight<CR>:term<CR>A
+
+"comp coding
+nmap <leader>cc :CompetiTest receive contest<CR>
+nmap <leader>cr :CompetiTest run<CR>
 
 let g:vimtex_compiler_latexmk = {'out_dir' : 'texbuild',}
 
@@ -92,15 +99,14 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     {"eandrju/cellular-automaton.nvim", lazy = true},
-    {"tpope/vim-fugitive", lazy = true},
+    {"tpope/vim-fugitive"},
     {"airblade/vim-gitgutter", lazy = true},
     {"petRUShka/vim-sage", lazy = true},
     {"NeogitOrg/neogit", lazy = true},
     "nvim-telescope/telescope.nvim",
     {"kylechui/nvim-surround", lazy = true,
     version = "*", 
-    event = "VeryLazy",
-    config = function()
+    event = "VeryLazy", config = function()
         require("nvim-surround").setup({})
     end
     },
@@ -158,6 +164,7 @@ require("lazy").setup({
         end
         
       require'lspconfig'.gopls.setup{}
+      require'lspconfig'.tsserver.setup{}
       require'lspconfig'.jdtls.setup{
         cmd = {'/bin/jdtls'},
       }
@@ -187,9 +194,9 @@ require("lazy").setup({
         local opts = { buffer = ev.buf }
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
---        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        --vim.keymap.set('n', '<C-K>', vim.lsp.buf.signature_help, opts)
         vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
         vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
         vim.keymap.set('n', '<leader>wl', function()
@@ -302,8 +309,16 @@ require("lazy").setup({
         { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
         { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
       },
-      "preservim/tagbar",
-    }
+    },
+    "preservim/tagbar",
+    {
+        'xeluxee/competitest.nvim',
+        dependencies = 'MunifTanjim/nui.nvim',
+        config = function() require('competitest').setup({
+            template_file = "~/.config/nvim/comptemp.$(FEXT)"
+        }) end,
+    },
+    "github/copilot.vim"
 })
 
 vim.g.tex_flavor='latex'
@@ -312,6 +327,8 @@ vim.g.vimtex_quickfix_mode=0
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.o.termguicolors = false
+
+vim.g.nvim_tree_update_cwd = 1
 
  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
  vim.lsp.handlers.hover, {
