@@ -196,9 +196,9 @@ snippet secs "section" wA
 \section{$1}$0
 endsnippet
 
-snippet intc "Make multi line cell" wA
-\begin{tabular}[x]{@{}l@{}}$1\end{tabular}$0
-endsnippet
+# snippet intc "Make multi line cell" wA
+# \begin{tabular}[x]{@{}l@{}}$1\end{tabular}$0
+# endsnippet
 
 snippet subss "Subsection" wA
 \subsection{$1}
@@ -403,6 +403,16 @@ snippet inf "\infty" iA
 \infty
 endsnippet
 
+context "math()"
+snippet ifm "\infty" iA
+\inf_{$1} $0
+endsnippet
+
+context "math()"
+snippet sup "\infty" iA
+\sup_{$1} $0
+endsnippet
+
 snippet rij "mrij" i
 (${1:x}_${2:n})_{${3:$2}\\in${4:\\N}}$0
 endsnippet
@@ -533,15 +543,15 @@ snippet '(?<!\\)(sin|cos|arccot|cot|csc|ln|log|exp|star|perp)' "ln" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
-priority 300
-context "math()"
-snippet dint "integral" wA
-\int_{${1:-\infty}}^{${2:\infty}} ${3:${VISUAL}} $0
-endsnippet
+# priority 300
+# context "math()"
+# snippet dint "integral" wA
+# \int_{${1:-\infty}}^{${2:\infty}} ${3:${VISUAL}} $0
+# endsnippet
 
 priority 200
 context "math()"
-snippet '(?<!\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec|pi|zeta|int)' "ln" rwA
+snippet '(?<!\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec|pi|zeta)' "ln" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 

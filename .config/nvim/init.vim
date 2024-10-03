@@ -42,6 +42,8 @@ nmap k gk
 inoremap {<CR> {<CR>}<C-o>O 
 inoremap [<CR> [<CR>]<C-o>O
 inoremap (<CR> (<CR>)<C-o>O
+inoremap jk <Esc> 
+inoremap kj <Esc> 
 
 "terminal
 map <leader>tt :<C-r>=floor((1.0/3.0)*winheight(0)) + 1<CR>split<CR>:set winfixheight<CR>:term<CR>A
@@ -164,7 +166,7 @@ require("lazy").setup({
         end
         
       require'lspconfig'.gopls.setup{}
-      require'lspconfig'.tsserver.setup{}
+      require'lspconfig'.ts_ls.setup{}
       require'lspconfig'.jdtls.setup{
         cmd = {'/bin/jdtls'},
       }
@@ -343,4 +345,6 @@ local function close_floating()
     end
   end
 end
+
+vim.cmd("Copilot disable")
 END
