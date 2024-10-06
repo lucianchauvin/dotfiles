@@ -43,7 +43,7 @@ inoremap {<CR> {<CR>}<C-o>O
 inoremap [<CR> [<CR>]<C-o>O
 inoremap (<CR> (<CR>)<C-o>O
 inoremap jk <Esc> 
-inoremap kj <Esc> 
+" inoremap kj <Esc> 
 
 "terminal
 map <leader>tt :<C-r>=floor((1.0/3.0)*winheight(0)) + 1<CR>split<CR>:set winfixheight<CR>:term<CR>A
