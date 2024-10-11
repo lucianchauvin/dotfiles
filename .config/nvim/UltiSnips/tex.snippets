@@ -555,6 +555,11 @@ snippet '(?<!\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec|pi|zeta)' "ln" rwA
 \\`!p snip.rv = match.group(1)`
 endsnippet
 
+priority 100
+context "math()"
+snippet img "image" iA
+\text{Im}\, 
+endsnippet
 
 priority 100
 context "math()"
@@ -755,22 +760,22 @@ snippet DD "D" iA
 endsnippet
 snippet prf "proof" iA
 \begin{proof}
-$1
+	$1
 \end{proof}$2
 endsnippet
 snippet thrm "theorem" iA
-\begin{theorem}
-$1
-\end{theorem}$2
+\begin{theorem}[$1]
+	$2
+\end{theorem}$3
 endsnippet
 snippet lemm "lemma" iA
 \begin{lemma}
-$1
+	$1
 \end{lemma}$2
 endsnippet
 snippet coro "corollary" iA
 \begin{corollary}
-$1
+	$1
 \end{corollary}$2
 endsnippet
 snippet tcl "theorem, proof, corollary, and lemma"

@@ -90,8 +90,8 @@ set -o vi
 #bind -m vi-command 'Control-l: clear-screen'
 #bind -m vi-insert 'Control-l: clear-screen'
 
-HISTSIZE=-1
-HISTFILESIZE=-1
+HISTSIZE=
+HISTFILESIZE=
 bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
 
