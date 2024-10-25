@@ -15,6 +15,17 @@ vim.opt.conceallevel = 2
 
 vim.o.termguicolors = false
 
+vim.diagnostic.config({
+    virtual_text = false,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "tex",
+    callback = function()
+        vim.opt.spell = true
+    end,
+})
+
 vim.api.nvim_set_hl(0, 'Conceal', { ctermbg = 'none' })
 
 vim.g.instant_username = "Meow :3"
@@ -130,7 +141,7 @@ require("lazy").setup({
         "neovim/nvim-lspconfig",
         config = function()
             require('lspconfig')['clangd'].setup{}
-            require('lspconfig').ltex.setup{}
+            -- require('lspconfig').ltex.setup{} // why tf this so slow
 
             local lspconfig = require 'lspconfig'
             local configs = require 'lspconfig/configs'
@@ -309,6 +320,13 @@ require("lazy").setup({
         "nvim-telescope/telescope.nvim",
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
+    {
+        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+        config = function()
+            require("lsp_lines").setup()
+        end,
+    },
+    "github/copilot.vim"
 })
 
 
