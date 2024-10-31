@@ -260,14 +260,14 @@ function theme.at_screen_connect(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(25.85915492957746586)})
+    s.mywibox = awful.wibar({ position = "bottom", screen = s, height = dpi(25.85915492957746586)})
 
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            small_spr,
+            -- small_spr,
             s.mytxtlayoutbox,
             bar_spr,
             s.mytaglist,
@@ -291,7 +291,7 @@ function theme.at_screen_connect(s)
             --theme.mpd.widget,
             --theme.mail.widget,
             mytextclock,
-            spr,
+            -- spr,
         },
     }
 end
