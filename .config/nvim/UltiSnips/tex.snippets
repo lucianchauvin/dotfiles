@@ -11,73 +11,38 @@ def env(name):
 
 endglobal
 
+# \makeatletter
+#  \renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+#   \hskip -\arraycolsep
+#   \let\@ifnextchar\new@ifnextchar
+#   \array{#1}}
+# \makeatother
 
-snippet template "Basic template" b
-\documentclass[a4paper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{textcomp}
-\usepackage[dutch]{babel}
-\usepackage{amsmath, amssymb}
-
-
-% figure support
-\usepackage{import}
-\usepackage{xifthen}
-\pdfminorversion=7
-\usepackage{pdfpages}
-\usepackage{transparent}
-\newcommand{\incfig}[1]{%
-    \def\svgwidth{\columnwidth}
-    \import{./figures/}{#1.pdf_tex}
-}
-
-\pdfsuppresswarningpagegroup=1
-
-\begin{document}
-    $0
-\end{document}
-endsnippet
-
-snippet probtemp "Problem template" b
+snippet prtmp "Problem template" bA
 \documentclass{article}
 \usepackage[shortlabels]{enumitem}
-\usepackage{amsmath, amsthm, amssymb, graphicx, mathtools, nicefrac, fancyhdr}
+\usepackage{amsmath, amsthm, amssymb, graphicx, mathtools, nicefrac, fancyhdr, titling}
 \usepackage[letterpaper, margin = 1in]{geometry}
 
-\usepackage{titling}
-\renewcommand\maketitlehooka{\null\mbox{}\vfill}
-\renewcommand\maketitlehookd{\vfill\null}
-
-\makeatletter
- \renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
-  \hskip -\arraycolsep
-  \let\@ifnextchar\new@ifnextchar
-  \array{#1}}
-\makeatother
-
-\makeatletter
-\newcommand{\subalign}[1]{%
-  \vcenter{% \Let@ \restore@math@cr \default@tag \baselineskip\fontdimen10 \scriptfont\tw@ \advance\baselineskip\fontdimen12 \scriptfont\tw@
-    \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
-    \lineskiplimit\lineskip
-    \ialign{\hfil$\m@th\scriptstyle##$&$\m@th\scriptstyle{}##$\hfil\crcr
-      #1\crcr
-    }%
-  }%
-}
-\makeatother
+\fancyhead[L]{\textbf{$1}}
+\fancyhead[C]{\textbf{$2}}
+\fancyhead[R]{\textbf{Lucian Chauvin}}
+\rfoot{\thepage}
+\cfoot{}
+\newtheorem{problem}{Problem}
 
 \begin{document}
+\pagestyle{fancy}
 
-\section*{$1}
-Lucian Chauvin 133003371
-
-\subsection*{$2}
 $0
 
 \end{document}
+endsnippet
+
+snippet prb "begin problem environment" bA
+\begin{problem}
+	$0
+\end{problem}
 endsnippet
 
 snippet beg "begin{} / end{}" bA
@@ -201,7 +166,7 @@ endsnippet
 # endsnippet
 
 snippet subss "Subsection" wA
-\subsection{$1}
+\subsection*{$1}
 $0
 endsnippet
 
@@ -763,6 +728,11 @@ snippet prf "proof" iA
 	$1
 \end{proof}$2
 endsnippet
+snippet sln "solution" iA
+\begin{proof}[Solution]
+	$1
+\end{proof}$2
+endsnippet
 snippet thrm "theorem" iA
 \begin{theorem}[$1]
 	$2
@@ -803,14 +773,18 @@ def create_matrix(snip):
 
         snip.buffer[snip.line] = ''
 
-        final_str = old_spacing + "\\begin{"+matrix_str+"}\n"
+        final_str = old_spacing 
+        if matrix_str == "smallmatrix": final_str += "\\bigl("
+        final_str += "\\begin{"+matrix_str+"}\n"
         for i in range(rows):
                 final_str += old_spacing + '\t'
                 final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
 
                 final_str += " \\\\\\\n"
 
-        final_str += old_spacing + "\\end{"+matrix_str+"}$0"
+        final_str += old_spacing + "\\end{"+matrix_str+"}"
+        if matrix_str == "smallmatrix": final_str += "\\bigr)$0"
+        else: final_str += "$0"
 
         snip.expand_anon(final_str)
 endglobal

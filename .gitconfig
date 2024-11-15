@@ -11,9 +11,13 @@
 [core]
 	editor = nvim
 [init]
-	defaultBranch = master
+	defaultBranch = main
 [commit]
 	gpgsign = true
 [push]
 	autoSetupRemote = true
-	default = matching
+	default = simple
+[safe]
+	directory = /home/public/datathon/Fairy-Stockfish/.git
+	directory = /home/public/datathon/Fairy-Stockfish/.git
+	directory = /home/public/datathon/Fairy-Stockfish/.git

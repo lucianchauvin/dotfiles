@@ -255,7 +255,7 @@ globalkeys = mytable.join(
     awful.key({ altkey, "Control"}, "Delete", function () os.execute('poweroff') end,
               {description = "power options", group = "hotkeys"}),
 
-    awful.key({ altkey, "Control"}, "h", function () os.execute('systemctl hibernate') end,
+    awful.key({ altkey, "Control"}, "h", function () os.execute('systemctl suspend') end,
               {description = "power options", group = "hotkeys"}),
 
     -- X shutdown
@@ -263,7 +263,7 @@ globalkeys = mytable.join(
               {description = "power options", group = "hotkeys"}),
 
     -- X screensaver
-    awful.key({ altkey, "Control"}, "l", function () os.execute('xscreensaver-command -lock') end,
+    awful.key({ altkey, "Control"}, "l", function () os.execute('slock') end,
               {description = "power options", group = "hotkeys"}),
 
     -- Show help

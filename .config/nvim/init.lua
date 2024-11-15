@@ -326,7 +326,7 @@ require("lazy").setup({
             require("lsp_lines").setup()
         end,
     },
-    "github/copilot.vim"
+    -- "github/copilot.vim"
 })
 
 
