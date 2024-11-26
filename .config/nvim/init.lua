@@ -26,6 +26,12 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
+vim.g.quickrun_known_file_types = {
+        glsl = {"!shaderun %"},
+    }
+
+vim.api.nvim_set_keymap('n', '<leader>rr', '<cmd>QuickRun<CR>', { noremap = true })
+
 vim.api.nvim_set_hl(0, 'Conceal', { ctermbg = 'none' })
 
 vim.g.instant_username = "Meow :3"
@@ -37,8 +43,8 @@ vim.g.tex_flavor='latex'
 vim.g.vimtex_view_method='zathura'
 vim.g.vimtex_quickfix_mode=0
 vim.g.nvim_tree_update_cwd = 1
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
 
 -- Auto commands
 vim.api.nvim_create_autocmd("InsertLeave", {
@@ -326,6 +332,7 @@ require("lazy").setup({
             require("lsp_lines").setup()
         end,
     },
+    "D0n9X1n/quickrun.vim",
     -- "github/copilot.vim"
 })
 
