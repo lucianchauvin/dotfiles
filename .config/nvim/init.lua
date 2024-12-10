@@ -27,8 +27,8 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.g.quickrun_known_file_types = {
-        glsl = {"!shaderun %"},
-    }
+    glsl = {"!shaderun %"},
+}
 
 vim.api.nvim_set_keymap('n', '<leader>rr', '<cmd>QuickRun<CR>', { noremap = true })
 
@@ -333,6 +333,17 @@ require("lazy").setup({
         end,
     },
     "D0n9X1n/quickrun.vim",
+    {
+        "NeogitOrg/neogit",
+        dependencies = {
+            "nvim-lua/plenary.nvim",         -- required
+            "sindrets/diffview.nvim",        -- optional - Diff integration
+
+            "nvim-telescope/telescope.nvim", -- optional
+        },
+        config = true,
+        lazy = false
+    }
     -- "github/copilot.vim"
 })
 

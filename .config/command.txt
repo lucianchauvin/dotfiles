@@ -1,1 +1,1 @@
-agetty --login-options -p -- --noclear ttyUSB0 9600
+agetty --login-options "-p --" --noclear ttyUSB0 9600
