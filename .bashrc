@@ -28,6 +28,7 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias dutop='ncdu'
 alias z='zathura' 
 alias nethack='ssh nethack@alt.org'
+alias cdg='cd $(git rev-parse --show-toplevel)'
 
 function parse_git_branch() {
 	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`

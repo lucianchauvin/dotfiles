@@ -171,6 +171,7 @@ require("lazy").setup({
             }
             require'lspconfig'.pyright.setup{}
             require'lspconfig'.hls.setup{}
+            require'lspconfig'.rust_analyzer.setup{}
 
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
