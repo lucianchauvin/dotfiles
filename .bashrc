@@ -21,8 +21,6 @@ alias blth='sudo systemctl start bluetooth'
 alias copy='xclip -selection clipboard'
 alias vim="nvim"
 alias n='nvim'
-alias google='google-chrome-stable'
-alias g='google-chrome-stable'
 alias tests='make -C tests clean && make -C tests -j12 run-all -k'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias dutop='ncdu'
