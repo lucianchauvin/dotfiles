@@ -31,6 +31,7 @@ vim.g.quickrun_known_file_types = {
 }
 
 vim.api.nvim_set_keymap('n', '<leader>rr', '<cmd>QuickRun<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>l', '<cmd>QuickRun<CR>', { noremap = true })
 
 vim.api.nvim_set_hl(0, 'Conceal', { ctermbg = 'none' })
 
@@ -39,17 +40,17 @@ vim.g.UltiSnipsExpandTrigger = "<tab>"
 vim.g.UltiSnipsJumpForwardTrigger = "<tab>"
 vim.g.UltiSnipsJumpBackwardTrigger = "<s-tab>"
 vim.api.nvim_set_keymap('n', '<leader>[', '<cmd>TeXpresso %<CR>', { noremap = true })
--- vim.g.vimtex_compiler_latexmk = { out_dir = 'texbuild' }
-vim.g.vimtex_compiler_latexmk = {
-    build_dir = 'texbuild',
-    options = {
-        '-pdf',
-        '-pdflatex=lualatex',
-        '-interaction=nonstopmode',
-        '-synctex=1',
-        '-shell-escape',
-    },
-}
+vim.g.vimtex_compiler_latexmk = { out_dir = 'texbuild' }
+-- vim.g.vimtex_compiler_latexmk = {
+--     build_dir = 'texbuild',
+--     options = {
+--         '-pdf',
+--         '-pdflatex=lualatex',
+--         '-interaction=nonstopmode',
+--         '-synctex=1',
+--         '-shell-escape',
+--     },
+-- }
 
 vim.g.tex_flavor='latex'
 vim.g.vimtex_view_method='zathura'
@@ -91,6 +92,7 @@ vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { no
 vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>Telescope buffers<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>fh', '<cmd>Telescope help_tags<CR>', { noremap = true })
+
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
