@@ -21,3 +21,9 @@
 	directory = /home/public/datathon/Fairy-Stockfish/.git
 	directory = /home/public/datathon/Fairy-Stockfish/.git
 	directory = /home/public/datathon/Fairy-Stockfish/.git
+[diff]
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d $LOCAL $REMOTE"
+[pull]
+	rebase = false

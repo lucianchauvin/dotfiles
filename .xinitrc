@@ -34,7 +34,7 @@ fi
 
 xset r rate 300 150
 
-pticom -b
+picom -b
 xss-lock -- xscreensaver-command -lock &
 export GDK_SCALE=2
 export GDK_DPI_SCALE=0.5
