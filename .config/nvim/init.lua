@@ -3,8 +3,10 @@ vim.opt.clipboard:append("unnamedplus")
 vim.opt.number = true
 vim.cmd('colorscheme vim')
 vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+-- vim.opt.expandtab = true
+vim.opt.smartindent = false
 vim.opt.completeopt:append("menuone,noinsert,noselect,preview")
 vim.opt.foldenable = false
 vim.opt.relativenumber = true
@@ -156,7 +158,13 @@ require("lazy").setup({
         "neovim/nvim-lspconfig",
         config = function()
             require('lspconfig')['clangd'].setup{}
-            -- require('lspconfig').ltex.setup{} // why tf this so slow
+            require("lspconfig")["tinymist"].setup{
+                settings = {
+                    formatterMode = "typstyle",
+                    exportPdf = "onType",
+                    semanticTokens = "disable"
+                }
+            }
 
             local lspconfig = require 'lspconfig'
             local configs = require 'lspconfig/configs'
@@ -294,7 +302,7 @@ require("lazy").setup({
     "hrsh7th/cmp-vsnip",
     "hrsh7th/vim-vsnip",
     "lervag/vimtex",
-    "ludovicchabant/vim-gutentags",
+    -- "ludovicchabant/vim-gutentags",
     "SirVer/ultisnips",
     "honza/vim-snippets",
     {
@@ -392,6 +400,15 @@ require("lazy").setup({
                 desc = "Quickfix List (Trouble)",
             },
         }, 
+    },
+    {
+        'chomosuke/typst-preview.nvim',
+        lazy = false, -- or ft = 'typst'
+        version = '1.*',
+        open_cmd = 'zathura %s',
+        opts = {
+            open_cmd = 'zathura %s',
+        }, -- lazy.nvim will implicitly calls `setup {}`
     }
     -- "github/copilot.vim"
 })
@@ -411,3 +428,45 @@ local function close_floating()
         end
     end
 end
+
+vim.api.nvim_create_user_command('GetTypstMode', function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local uri = vim.uri_from_bufnr(bufnr)
+    local pos = vim.api.nvim_win_get_cursor(0)
+    local params = {
+        textDocument = {
+            uri = uri,
+        },
+        query = {
+            {
+                kind = "modeAt",
+                position = {
+                    line = pos[1] - 1,
+                    character = pos[2],
+                }
+            }
+        }
+    }
+
+    vim.lsp.buf_request(0, "workspace/executeCommand", {
+        command = "tinymist.interactCodeContext",
+        arguments = { params },
+    }, function(err, result)
+        if err then
+            vim.notify("Tinymist error: " .. err.message, vim.log.levels.ERROR)
+            return
+        end
+        if result and result[1] and result[1].mode then
+            vim.g.typst_mode = result[1].mode
+        else
+            vim.g.typst_mode = nil
+        end
+    end)
+end, {})
+
+vim.api.nvim_create_autocmd({'InsertEnter'}, {
+    pattern = '*.typ',
+    callback = function()
+        vim.api.nvim_command('GetTypstMode')
+    end
+})

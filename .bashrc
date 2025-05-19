@@ -125,9 +125,16 @@ rm() {
 }
 
 RED="\[\e[91m\]"
-ENDCOLOR="\[\e[0m\]"
+YELLOW="\[\e[33m\]"
 GREEN="\[\e[32m\]"
-export PS1="${RED}[\u@\h \W]${GREEN}\`parse_git_branch\`${RED}\$${ENDCOLOR} "
+ENDCOLOR="\[\e[0m\]"
+
+if [ -n "$SSH_CONNECTION" ]; then
+	export PS1="${YELLOW}[\u@\h \W]${GREEN}\`parse_git_branch\`${YELLOW}\$${ENDCOLOR} "
+else
+	export PS1="${RED}[\u@\h \W]${GREEN}\`parse_git_branch\`${RED}\$${ENDCOLOR} "
+fi
+
 export EDITOR="nvim"
 export GPG_TTY=$(tty)
 
@@ -189,3 +196,11 @@ nvm() {
     lazy_load_nvm
     nvm $@
 }
+
+#SCC
+export PATH=$PATH:/home/lucian/downloads/code_saturne-8.3.1.build/arch/Linux/bin/
+
+#PYENV
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - bash)"
