@@ -5,7 +5,7 @@ vim.cmd('colorscheme vim')
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
--- vim.opt.expandtab = true
+vim.opt.expandtab = true
 vim.opt.smartindent = false
 vim.opt.completeopt:append("menuone,noinsert,noselect,preview")
 vim.opt.foldenable = false
@@ -14,6 +14,10 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.undofile = true
 vim.opt.conceallevel = 2
+vim.opt.updatetime = 100
+vim.opt.signcolumn = "yes:1"
+vim.cmd('highlight SignColumn ctermbg=black')
+vim.cmd('highlight SyntasticErrorSign ctermbg=black')
 
 vim.o.termguicolors = false
 
@@ -28,20 +32,12 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
-vim.g.quickrun_known_file_types = {
-    glsl = {"!shaderun %"},
-}
-
-vim.api.nvim_set_keymap('n', '<leader>rr', '<cmd>QuickRun<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>l', '<cmd>QuickRun<CR>', { noremap = true })
-
 vim.api.nvim_set_hl(0, 'Conceal', { ctermbg = 'none' })
 
 vim.g.instant_username = "Meow :3"
 vim.g.UltiSnipsExpandTrigger = "<tab>"
 vim.g.UltiSnipsJumpForwardTrigger = "<tab>"
 vim.g.UltiSnipsJumpBackwardTrigger = "<s-tab>"
-vim.api.nvim_set_keymap('n', '<leader>[', '<cmd>TeXpresso %<CR>', { noremap = true })
 vim.g.vimtex_compiler_latexmk = { out_dir = 'texbuild' }
 
 -- vim.g.vimtex_compiler_latexmk = {
@@ -86,14 +82,9 @@ vim.api.nvim_set_keymap('i', '[<CR>', '[<CR>]<C-o>O', { noremap = true })
 vim.api.nvim_set_keymap('i', '(<CR>', '(<CR>)<C-o>O', { noremap = true })
 vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = true })
 
--- Comp coding mappings
-vim.api.nvim_set_keymap('n', '<leader>cc', ':CompetiTest receive contest<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>cr', ':CompetiTest run<CR>', { noremap = true })
-
 -- Telescope mappings
 vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>Telescope buffers<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>fh', '<cmd>Telescope help_tags<CR>', { noremap = true })
 
 
@@ -111,19 +102,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    {"eandrju/cellular-automaton.nvim", lazy = true},
     {"tpope/vim-fugitive"},
-    {"airblade/vim-gitgutter", lazy = true},
-    {"petRUShka/vim-sage", lazy = true},
-    {"NeogitOrg/neogit", lazy = true},
+    {"airblade/vim-gitgutter"},
     "nvim-telescope/telescope.nvim",
-    {
-        "kylechui/nvim-surround", lazy = true,
-        version = "*", 
-        event = "VeryLazy", config = function()
-            require("nvim-surround").setup({})
-        end
-    },
     "nvim-lua/plenary.nvim",
     {
         "nvim-lualine/lualine.nvim",
@@ -302,7 +283,6 @@ require("lazy").setup({
     "hrsh7th/cmp-vsnip",
     "hrsh7th/vim-vsnip",
     "lervag/vimtex",
-    -- "ludovicchabant/vim-gutentags",
     "SirVer/ultisnips",
     "honza/vim-snippets",
     {
@@ -334,35 +314,13 @@ require("lazy").setup({
     },
     "preservim/tagbar",
     {
-        'xeluxee/competitest.nvim',
-        dependencies = 'MunifTanjim/nui.nvim',
-        config = function() require('competitest').setup({
-            template_file = "~/.config/nvim/comptemp.$(FEXT)"
-        }) end,
-    },
-    {
         "nvim-telescope/telescope.nvim",
         dependencies = { 'nvim-lua/plenary.nvim' }
-    },
-    "D0n9X1n/quickrun.vim",
-    {
-        "NeogitOrg/neogit",
-        dependencies = {
-            "nvim-lua/plenary.nvim",         -- required
-            "sindrets/diffview.nvim",        -- optional - Diff integration
-
-            "nvim-telescope/telescope.nvim", -- optional
-        },
-        config = true,
-        lazy = false
     },
     {
         'stevearc/oil.nvim',
         opts = {},
         dependencies = { "nvim-tree/nvim-web-devicons" },
-    },
-    {
-        'let-def/texpresso.vim'
     },
     {
         "folke/trouble.nvim",
@@ -408,9 +366,8 @@ require("lazy").setup({
         open_cmd = 'zathura %s',
         opts = {
             open_cmd = 'zathura %s',
-        }, -- lazy.nvim will implicitly calls `setup {}`
+        },
     }
-    -- "github/copilot.vim"
 })
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
@@ -428,45 +385,3 @@ local function close_floating()
         end
     end
 end
-
-vim.api.nvim_create_user_command('GetTypstMode', function()
-    local bufnr = vim.api.nvim_get_current_buf()
-    local uri = vim.uri_from_bufnr(bufnr)
-    local pos = vim.api.nvim_win_get_cursor(0)
-    local params = {
-        textDocument = {
-            uri = uri,
-        },
-        query = {
-            {
-                kind = "modeAt",
-                position = {
-                    line = pos[1] - 1,
-                    character = pos[2],
-                }
-            }
-        }
-    }
-
-    vim.lsp.buf_request(0, "workspace/executeCommand", {
-        command = "tinymist.interactCodeContext",
-        arguments = { params },
-    }, function(err, result)
-        if err then
-            vim.notify("Tinymist error: " .. err.message, vim.log.levels.ERROR)
-            return
-        end
-        if result and result[1] and result[1].mode then
-            vim.g.typst_mode = result[1].mode
-        else
-            vim.g.typst_mode = nil
-        end
-    end)
-end, {})
-
-vim.api.nvim_create_autocmd({'InsertEnter'}, {
-    pattern = '*.typ',
-    callback = function()
-        vim.api.nvim_command('GetTypstMode')
-    end
-})

@@ -86,7 +86,7 @@ local editor       = os.getenv("EDITOR") or "nvim"
 local browser      = "firefox"
 
 awful.util.terminal = terminal
-awful.util.tagnames = { "1", "2", "3", "4", "5" }
+awful.util.tagnames = { "1", "2", "3", "4", "5"}
 awful.layout.layouts = {
     awful.layout.suit.max,
     awful.layout.suit.tile,
@@ -666,6 +666,7 @@ root.keys(globalkeys)
 -- {{{ Rules
 
 -- Rules to apply to new clients (through the "manage" signal).
+local firefox_hidden_once = false
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
@@ -717,6 +718,22 @@ awful.rules.rules = {
     { rule_any = {type = { "normal", "dialog" }
       }, properties = { titlebars_enabled = false }
     },
+	{
+		rule = { class = "firefox", name = "Mozilla Firefox" },
+		callback = function(c)
+			if not firefox_hidden_once then
+				-- Only apply hiding once
+				c.skip_taskbar = true
+				c.tag = "5"
+				c.minimized = false
+				c.hidden = true
+				c.floating = true
+				c.ontop = false
+				c.focusable = false
+				firefox_hidden_once = true
+			end
+		end
+	},
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
