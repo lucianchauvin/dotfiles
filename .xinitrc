@@ -38,5 +38,4 @@ picom -b
 xss-lock -- xscreensaver-command -lock &
 export GDK_SCALE=2
 export GDK_DPI_SCALE=0.5
-exec firefox &
 exec awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr

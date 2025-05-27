@@ -1,12 +1,15 @@
-#
-# ~/.bashrc
-#
-
-# If not running interactively, don't do anything
+# if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [[ ! "$DISPLAY" == "" ]] &&>/dev/null && [ -z "$TMUX" ]; then
     exec tmux
 fi
+
+cd() {
+  if builtin cd "$@"; then
+    export gr=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
+  fi
+}
+
 alias ls='ls --color=auto -lhtr --group-directories-first'
 alias lsa='ls --color=auto -lh -a --group-directories-first'
 alias grep='grep --color=auto'
@@ -26,7 +29,7 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias dutop='ncdu'
 alias z='zathura' 
 alias nethack='ssh nethack@alt.org'
-alias cdg='cd $(git rev-parse --show-toplevel)'
+alias cdg='cd $gr'
 
 function parse_git_branch() {
     BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
@@ -74,56 +77,6 @@ function parse_git_dirty {
     fi
 }
 
-rm() {
-    local args=()
-    local files=()
-    local force_flag=0
-    local found_protected=0
-    local protected_ext=("tex")
-
-    # Process arguments
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-            -f|--force) 
-                force_flag=1
-                args+=("$1")
-                ;;
-            -r|-R|--recursive) args+=("$1") ;;
-            --) shift; break ;;
-            -*) args+=("$1") ;;
-            *) files+=("$1") ;;
-        esac
-        shift
-    done
-
-    files+=("$@")
-
-    if [[ $force_flag -eq 1 ]]; then
-        command rm "${args[@]}" "${files[@]}"
-        return
-    fi
-
-    for file in "${files[@]}"; do
-        if [[ -f "$file" ]]; then
-            for ext in "${protected_ext[@]}"; do
-                if [[ "$file" == *.$ext ]]; then
-                    found_protected=1
-                    break
-                fi
-            done
-        fi
-    done
-
-    if [[ $found_protected -eq 1 ]]; then
-        echo -n "Warning: You are about to delete a file with a protected extension. Are you sure? (y/n) "
-        read -r response
-        if [[ "$response" != "y" ]]; then
-            return 1
-        fi
-    fi
-    command rm "${args[@]}" "${files[@]}"
-}
-
 RED="\[\e[91m\]"
 YELLOW="\[\e[33m\]"
 GREEN="\[\e[32m\]"
@@ -158,15 +111,13 @@ fi
 #Autojump stuff
 [[ -s /etc/profile.d/autojump.sh ]] && source /etc/profile.d/autojump.sh
 
-mkcdir ()
-{
-    mkdir -p -- "$1" &&
-        cd -P -- "$1"
-    }
+mkcdir () {
+    mkdir -p -- "$1" && cd -P -- "$1"
+}
 
-    duls () {
-        paste <( du -hs -- "$@" | cut -f1 ) <( ls -ldf -- "$@" )
-    }
+duls () {
+    paste <( du -hs -- "$@" | cut -f1 ) <( ls -ldf -- "$@" )
+}
 
 # Created by `pipx` on 2024-02-08 04:44:56
 export PATH="$PATH:/home/lucian/.local/bin:/opt/scorep/bin"
