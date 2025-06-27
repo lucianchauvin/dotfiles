@@ -38,18 +38,18 @@ vim.g.instant_username = "Meow :3"
 vim.g.UltiSnipsExpandTrigger = "<tab>"
 vim.g.UltiSnipsJumpForwardTrigger = "<tab>"
 vim.g.UltiSnipsJumpBackwardTrigger = "<s-tab>"
-vim.g.vimtex_compiler_latexmk = { out_dir = 'texbuild' }
+-- vim.g.vimtex_compiler_latexmk = { out_dir = 'texbuild' }
 
--- vim.g.vimtex_compiler_latexmk = {
---     build_dir = 'texbuild',
---     options = {
---         '-pdf',
---         '-pdflatex=lualatex',
---         '-interaction=nonstopmode',
---         '-synctex=1',
---         '-shell-escape',
---     },
--- }
+vim.g.vimtex_compiler_latexmk = {
+    build_dir = 'texbuild',
+    options = {
+        '-pdf',
+        '-pdflatex=lualatex',
+        '-interaction=nonstopmode',
+        '-synctex=1',
+        '-shell-escape',
+    },
+}
 
 vim.g.tex_flavor='latex'
 vim.g.vimtex_view_method='zathura'
@@ -286,11 +286,18 @@ require("lazy").setup({
     "SirVer/ultisnips",
     "honza/vim-snippets",
     {
-        'Julian/lean.nvim',
+        'lean.nvim',
+        dir = '/home/lucian/src/lean.nvim',
+        dev = true,
         event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
         opts = {
             lsp = {
                 on_attach = on_attach,
+            },
+            infoview = {
+                orientation = "horizontal",
+                height = 12,
+                horizontal_position = "bottom",
             },
             mappings = true,
         }
@@ -367,7 +374,8 @@ require("lazy").setup({
         opts = {
             open_cmd = 'zathura %s',
         },
-    }
+    },
+    'junegunn/vim-easy-align',
 })
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview

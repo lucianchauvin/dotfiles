@@ -120,7 +120,7 @@ duls () {
 }
 
 # Created by `pipx` on 2024-02-08 04:44:56
-export PATH="$PATH:/home/lucian/.local/bin:/opt/scorep/bin"
+export PATH="$PATH:$HOME/.local/bin:/opt/scorep/bin:$HOME/.cargo/bin"
 export PATH_TO_FX="/usr/lib/jvm/java-22-openjfx/lib"
 
 export GDK_SCALE=2
@@ -150,8 +150,3 @@ nvm() {
 
 #SCC
 export PATH=$PATH:/home/lucian/downloads/code_saturne-8.3.1.build/arch/Linux/bin/
-
-#PYENV
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - bash)"
