@@ -19,6 +19,8 @@ vim.opt.signcolumn = "yes:1"
 vim.cmd('highlight SignColumn ctermbg=black')
 vim.cmd('highlight SyntasticErrorSign ctermbg=black')
 
+vim.api.nvim_set_keymap("n", "<leader>n", ":ASToggle<CR>", {})
+
 vim.o.termguicolors = false
 
 vim.diagnostic.config({
@@ -26,7 +28,7 @@ vim.diagnostic.config({
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = "tex",
+    pattern = { "typst", "text", "tex" },
     callback = function()
         vim.opt.spell = true
     end,
@@ -287,6 +289,7 @@ require("lazy").setup({
     "honza/vim-snippets",
     {
         'lean.nvim',
+        -- 'Julian/lean.nvim',
         dir = '/home/lucian/src/lean.nvim',
         dev = true,
         event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
@@ -295,8 +298,7 @@ require("lazy").setup({
                 on_attach = on_attach,
             },
             infoview = {
-                orientation = "horizontal",
-                height = 12,
+                orientation = "vertical",
                 horizontal_position = "bottom",
             },
             mappings = true,
@@ -370,12 +372,20 @@ require("lazy").setup({
         'chomosuke/typst-preview.nvim',
         lazy = false, -- or ft = 'typst'
         version = '1.*',
-        open_cmd = 'zathura %s',
         opts = {
-            open_cmd = 'zathura %s',
+            open_cmd = 'firefox %s -P typst-preview',
         },
+        config = function()
+            vim.api.nvim_set_keymap('n', '<leader>ll', '<cmd>TypstPreviewToggle<CR>', { noremap = true })
+        end,
     },
     'junegunn/vim-easy-align',
+    {
+        'pocco81/auto-save.nvim',
+        config = function()
+            require("auto-save").off()
+        end
+    }
 })
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
