@@ -372,10 +372,10 @@ require("lazy").setup({
         'chomosuke/typst-preview.nvim',
         lazy = false, -- or ft = 'typst'
         version = '1.*',
-        opts = {
-            open_cmd = 'firefox %s -P typst-preview',
-        },
         config = function()
+            require("typst-preview").setup({
+                open_cmd = 'firefox %s -P typst-preview --class typst-preview',
+            })
             vim.api.nvim_set_keymap('n', '<leader>ll', '<cmd>TypstPreviewToggle<CR>', { noremap = true })
         end,
     },
