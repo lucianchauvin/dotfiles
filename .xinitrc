@@ -2,8 +2,8 @@
 
 # xrandr --setprovideroutputsource modesetting NVIDIA-0
 # xrandr --auto
-xrandr --output eDP-1 --scale 1.25x1.25
-xrandr --output DP-2 --scale 1.25x1.25
+# xrandr --output eDP-1 --scale 1.25x1.25
+# xrandr --output DP-2 --scale 1.25x1.25
 
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
@@ -36,6 +36,11 @@ xset r rate 300 150
 
 picom -b
 xss-lock -- xscreensaver-command -lock &
+
 export GDK_SCALE=2
 export GDK_DPI_SCALE=0.5
+
+# flameshot fix
+export QT_ENABLE_HIGHDPI_SCALING=0
+
 exec awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr

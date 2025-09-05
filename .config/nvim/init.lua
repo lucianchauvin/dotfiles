@@ -321,7 +321,6 @@ require("lazy").setup({
             { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
         },
     },
-    "preservim/tagbar",
     {
         "nvim-telescope/telescope.nvim",
         dependencies = { 'nvim-lua/plenary.nvim' }

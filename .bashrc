@@ -124,9 +124,6 @@ duls () {
 export PATH="$PATH:$HOME/.local/bin:/opt/scorep/bin:$HOME/.cargo/bin"
 export PATH_TO_FX="/usr/lib/jvm/java-22-openjfx/lib"
 
-export GDK_SCALE=2
-export GDK_DPI_SCALE=0.5
-
 lazy_load_nvm() {
     unset -f npm node nvm
     export NVM_DIR=~/.nvm
