@@ -1,0 +1,68 @@
+snippet mk "Math" wA
+$${1}$${0}
+endsnippet
+
+snippet dm "Math" wA
+$ ${1} $${0}
+endsnippet
+
+snippet tmp "template"
+#set page("us-letter", numbering: "1", number-align: center)
+#set par(justify: true)
+#set text(font: "New Computer Modern")
+#set enum(numbering: "(a)")
+#show math.equation.where(block: true): block.with(width: 100%)
+#import "@preview/chic-hdr:0.5.0": *
+#show: chic.with(chic-header(left-side: "${1}", center-side: "${2}", right-side: "${3}"), chic-separator(0.5pt, on: "header"), chic-height(1.5cm), chic-footer(right-side: chic-page-number()))
+
+#let prob_c = counter("prob")
+#let problem(text, num: "", mod: "") = {
+  [*Problem*]
+  if num != "" {[* #num*]}
+  else {prob_c.step(); context [* #prob_c.display()*]}
+  if mod != "" {[ #mod]}
+  [*.* #text]
+}
+
+#let proof(text, mod: "") = {
+  [_Proof_]
+  if mod != "" {[ #mod]}
+  [_._ #text]
+  [#h(1fr)] 
+  $square$
+}
+
+#let solution(text, mod: "") = {
+  [_Solution_]
+  if mod != "" {[ #mod]}
+  [_._ #text]
+}
+
+#let todo() = {
+  align(center)[
+    #text(fill: red)[
+      = TODO
+    ]
+  ]
+}
+
+${0}
+endsnippet
+
+snippet prb "problem" iA
+#problem(num: "${1}", mod: "${2}")[
+	${0}
+]
+endsnippet
+
+snippet prf "proof" iA
+#proof(mod: "${1}")[
+	${0}
+]
+endsnippet
+
+snippet sln "solution" iA
+#solution(mod: "${1}")[
+	${0}
+]
+endsnippet

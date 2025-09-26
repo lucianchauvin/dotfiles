@@ -18,6 +18,7 @@ vim.opt.updatetime = 100
 vim.opt.signcolumn = "yes:1"
 vim.cmd('highlight SignColumn ctermbg=black')
 vim.cmd('highlight SyntasticErrorSign ctermbg=black')
+vim.opt.spellsuggest="best,7"
 
 vim.api.nvim_set_keymap("n", "<leader>n", ":ASToggle<CR>", {})
 
@@ -25,6 +26,13 @@ vim.o.termguicolors = false
 
 vim.diagnostic.config({
     virtual_text = true,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "typst"},
+    callback = function()
+        vim.api.nvim_set_keymap('n', '<leader>ll', ':lua require("typst").start_typst()<CR>', { noremap = true, silent = true })
+    end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -40,18 +48,18 @@ vim.g.instant_username = "Meow :3"
 vim.g.UltiSnipsExpandTrigger = "<tab>"
 vim.g.UltiSnipsJumpForwardTrigger = "<tab>"
 vim.g.UltiSnipsJumpBackwardTrigger = "<s-tab>"
--- vim.g.vimtex_compiler_latexmk = { out_dir = 'texbuild' }
+vim.g.vimtex_compiler_latexmk = { out_dir = 'texbuild' }
 
-vim.g.vimtex_compiler_latexmk = {
-    build_dir = 'texbuild',
-    options = {
-        '-pdf',
-        '-pdflatex=lualatex',
-        '-interaction=nonstopmode',
-        '-synctex=1',
-        '-shell-escape',
-    },
-}
+-- vim.g.vimtex_compiler_latexmk = {
+--     build_dir = 'texbuild',
+--     options = {
+--         '-pdf',
+--         '-pdflatex=lualatex',
+--         '-interaction=nonstopmode',
+--         '-synctex=1',
+--         '-shell-escape',
+--     },
+-- }
 
 vim.g.tex_flavor='latex'
 vim.g.vimtex_view_method='zathura'
@@ -366,17 +374,6 @@ require("lazy").setup({
                 desc = "Quickfix List (Trouble)",
             },
         }, 
-    },
-    {
-        'chomosuke/typst-preview.nvim',
-        lazy = false, -- or ft = 'typst'
-        version = '1.*',
-        config = function()
-            require("typst-preview").setup({
-                open_cmd = 'firefox %s -P typst-preview --class typst-preview',
-            })
-            vim.api.nvim_set_keymap('n', '<leader>ll', '<cmd>TypstPreviewToggle<CR>', { noremap = true })
-        end,
     },
     'junegunn/vim-easy-align',
     {
