@@ -42,6 +42,18 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
+-- vim.api.nvim_create_autocmd("FileType", {
+--     pattern = { "typst", "tex" },
+--     callback = function()
+--         vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+--             buffer = 0,
+--             callback = function()
+--                 vim.cmd("update")
+--             end,
+--         })
+--     end,
+-- })
+
 vim.api.nvim_set_hl(0, 'Conceal', { ctermbg = 'none' })
 
 vim.g.instant_username = "Meow :3"
@@ -148,75 +160,65 @@ require("lazy").setup({
     {
         "neovim/nvim-lspconfig",
         config = function()
-            require('lspconfig')['clangd'].setup{}
-            require("lspconfig")["tinymist"].setup{
-                settings = {
-                    formatterMode = "typstyle",
-                    exportPdf = "onType",
-                    semanticTokens = "disable"
-                }
-            }
+            local util = require("lspconfig.util")
+            local configs = require("lspconfig.configs")
 
-            local lspconfig = require 'lspconfig'
-            local configs = require 'lspconfig/configs'
+            -- clangd
+            vim.lsp.enable("clangd")
 
+            -- tinymist
+            vim.lsp.enable("tinymist")
+
+            -- golangci-lint custom server
             if not configs.golangcilsp then
                 configs.golangcilsp = {
                     default_config = {
-                        cmd = {'golangci-lint-langserver'},
-                        root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
+                        cmd = { "golangci-lint-langserver" },
+                        root_dir = util.root_pattern(".git", "go.mod"),
                         init_options = {
-                            command = { "golangci-lint", "run", "--enable-all", "--disable", "lll", "--out-format", "json", "--issues-exit-code=1" };
-                        }
-                    };
+                            command = {
+                                "golangci-lint", "run",
+                                "--enable-all", "--disable", "lll",
+                                "--out-format", "json",
+                                "--issues-exit-code=1",
+                            },
+                        },
+                    },
                 }
             end
+            vim.lsp.enable("golangcilsp")
 
-            require'lspconfig'.gopls.setup{}
-            require'lspconfig'.ts_ls.setup{}
-            require'lspconfig'.jdtls.setup{
-                cmd = {'/bin/jdtls'},
-            }
-            require'lspconfig'.pyright.setup{}
-            require'lspconfig'.hls.setup{}
-            require'lspconfig'.rust_analyzer.setup{}
+            -- Standard servers
+            local servers = { "gopls", "ts_ls", "jdtls", "pyright", "hls", "rust_analyzer" }
+            for _, server in ipairs(servers) do
+                vim.lsp.config(server, {})
+                vim.lsp.enable(server)
+            end
 
-            vim.api.nvim_create_autocmd('LspAttach', {
-                group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+            -- LspAttach keymaps
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("UserLspConfig", {}),
                 callback = function(ev)
-                    vim.keymap.set("n", "K", function()
-                        local base_win_id = vim.api.nvim_get_current_win()
-                        local windows = vim.api.nvim_tabpage_list_wins(0)
-                        for _, win_id in ipairs(windows) do
-                            if win_id ~= base_win_id then
-                                local win_cfg = vim.api.nvim_win_get_config(win_id)
-                                if win_cfg.relative == "win" and win_cfg.win == base_win_id then
-                                    vim.api.nvim_win_close(win_id, {})
-                                    return
-                                end
-                            end
-                        end
-                        vim.lsp.buf.hover()
-                    end, { remap = false, silent = true, buffer = ev.buf, desc = "Toggle hover" })
-
-                    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
                     local opts = { buffer = ev.buf }
-                    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-                    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-                    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-                    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-                    --vim.keymap.set('n', '<C-K>', vim.lsp.buf.signature_help, opts)
-                    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
-                    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
-                    vim.keymap.set('n', '<leader>wl', function()
+
+                    -- Buffer-local omnifunc
+                    vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+
+                    -- Keymaps
+                    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+                    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+                    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+                    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+                    vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+                    vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+                    vim.keymap.set("n", "<leader>wl", function()
                         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
                     end, opts)
-                    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-                    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-                    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
-                    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-                    vim.keymap.set('n', '<leader>f', function()
+                    vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+                    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+                    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+                    vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+                    vim.keymap.set("n", "<leader>f", function()
                         vim.lsp.buf.format { async = true }
                     end, opts)
                 end,
@@ -296,10 +298,10 @@ require("lazy").setup({
     "SirVer/ultisnips",
     "honza/vim-snippets",
     {
-        'lean.nvim',
-        -- 'Julian/lean.nvim',
-        dir = '/home/lucian/src/lean.nvim',
-        dev = true,
+        -- 'lean.nvim',
+        'Julian/lean.nvim',
+        -- dir = '/home/lucian/src/lean.nvim',
+        -- dev = true,
         event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
         opts = {
             lsp = {
