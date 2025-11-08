@@ -42,18 +42,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
--- vim.api.nvim_create_autocmd("FileType", {
---     pattern = { "typst", "tex" },
---     callback = function()
---         vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
---             buffer = 0,
---             callback = function()
---                 vim.cmd("update")
---             end,
---         })
---     end,
--- })
-
 vim.api.nvim_set_hl(0, 'Conceal', { ctermbg = 'none' })
 
 vim.g.instant_username = "Meow :3"
@@ -167,7 +155,16 @@ require("lazy").setup({
             vim.lsp.enable("clangd")
 
             -- tinymist
-            vim.lsp.enable("tinymist")
+            -- vim.lsp.enable("tinymist")
+            vim.lsp.config['tinymist'] = {
+                settings = {
+                    formatterMode = "typstyle",
+                    exportPdf = "onType",
+                    semantokens = "disable"
+                }
+            }
+            vim.lsp.enable('tinymist')
+
 
             -- golangci-lint custom server
             if not configs.golangcilsp then

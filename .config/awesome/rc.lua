@@ -109,6 +109,7 @@ awful.layout.layouts = {
     --lain.layout.centerwork.horizontal,
     --lain.layout.termfair,
     --lain.layout.termfair.center
+    awful.layout.suit.floating,
 }
 
 lain.layout.termfair.nmaster           = 3
@@ -263,7 +264,7 @@ globalkeys = mytable.join(
               {description = "power options", group = "hotkeys"}),
 
     -- X screensaver
-    awful.key({ altkey, "Control"}, "l", function () os.execute('slock') end,
+    awful.key({ altkey, "Control"}, "l", function () os.execute('XSECURELOCK_PASSWORD_PROMPT=time xsecurelock') end,
               {description = "power options", group = "hotkeys"}),
 
     -- Show help
@@ -559,7 +560,7 @@ clientkeys = mytable.join(
               {description = "close", group = "client"}),
 --    awful.key({ "Control", }, "d",      function (c) c:kill()                         end,
 --              {description = "close", group = "client"}),
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
+    awful.key({ modkey, "Control" }, "space",  function(c) c.floating = true; c.ontop = true; c:raise(); end                     ,
               {description = "toggle floating", group = "client"}),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
               {description = "move to master", group = "client"}),
