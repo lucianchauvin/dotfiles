@@ -12,7 +12,7 @@ cd() {
 
 alias ls='ls --color=auto -lhtr --group-directories-first'
 alias lsa='ls --color=auto -lh -a --group-directories-first'
-alias grep='grep --color=auto'
+alias grep='grep --color=auto -i'
 alias gbr='g++ -g -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined *.cpp; ./a.out'
 alias grr='g++ -Wall -Wextra -Wno-error=pedantic -Weffc++ -fsanitize=address,undefined -O9 *.cpp; ./a.out'
 alias gcr='gcc -g -Wall -Wextra -Wno-error=pedantic -fsanitize=address,undefined *.c; ./a.out'
@@ -31,6 +31,7 @@ alias z='zathura'
 alias nethack='ssh nethack@alt.org'
 alias cdg='cd $gr'
 alias toclip='xclip -sel clip'
+alias heater='stress --cpu $(nproc --all) & gpu_burn -d 100000 &'
 
 function parse_git_branch() {
     BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`

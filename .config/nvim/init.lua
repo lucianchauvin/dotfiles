@@ -22,6 +22,8 @@ vim.opt.spellsuggest="best,7"
 
 vim.api.nvim_set_keymap("n", "<leader>n", ":ASToggle<CR>", {})
 
+vim.keymap.set("n", "<leader>t", "<cmd>AerialToggle!<CR>")
+
 vim.o.termguicolors = false
 
 vim.diagnostic.config({
@@ -380,6 +382,14 @@ require("lazy").setup({
         config = function()
             require("auto-save").off()
         end
+    },
+    {
+        'stevearc/aerial.nvim',
+        opts = {},
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons"
+        },
     }
 })
 
