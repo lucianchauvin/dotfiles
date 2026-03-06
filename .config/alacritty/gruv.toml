@@ -23,9 +23,9 @@ background = "0x282828"
 foreground = "0xebdbb2"
 
 [font]
-size = 12.5
+size = 14.05
 
 [font.normal]
-family = "NotoSansM Nerd Font Mono"
+family = "ComicShannsMono Nerd Font Mono"
 style = "Normal"
 

@@ -342,11 +342,7 @@ globalkeys = mytable.join(
               {description = "jump to urgent client", group = "client"}),
     awful.key({ modkey,           }, "Tab",
         function ()
-            if cycle_prev then
-                awful.client.focus.history.previous()
-            else
-                awful.client.focus.byidx(-1)
-            end
+            awful.client.focus.byidx(1)
             if client.focus then
                 client.focus:raise()
             end

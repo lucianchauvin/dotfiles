@@ -32,6 +32,7 @@ alias nethack='ssh nethack@alt.org'
 alias cdg='cd $gr'
 alias toclip='xclip -sel clip'
 alias heater='stress --cpu $(nproc --all) & gpu_burn -d 100000 &'
+alias feh='feh -Z'
 
 function parse_git_branch() {
     BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`

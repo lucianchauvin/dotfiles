@@ -60,5 +60,5 @@ set render-loading-fg           "rgba(235,219,178,1)"  # fg
 # Recolor book content's color
 set recolor-lightcolor          "rgba(40,40,40,1)"     # bg
 set recolor-darkcolor           "rgba(235,219,178,1)"  # fg
-set recolor                     "true"
+# set recolor                     "true"
 set recolor-keephue             "true"                 # keep original color

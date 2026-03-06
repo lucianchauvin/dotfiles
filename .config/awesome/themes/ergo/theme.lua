@@ -11,7 +11,7 @@ local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/ergo"
 theme.wallpaper                                 = theme.dir .. "/wall.jpg"
-theme.font                                      = "NotoSansM Nerd Font Mono 12.5"
+theme.font                                      = "ComicShannsMono Nerd Font Mono 14.05"
 theme.fg_normal                                 = "#EBDBB2"
 theme.fg_focus                                  = "#EBDBB2"
 theme.fg_urgent                                 = "#EBDBB2"
@@ -260,7 +260,7 @@ function theme.at_screen_connect(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "bottom", screen = s, height = dpi(29.9154)})
+    s.mywibox = awful.wibar({ position = "bottom", screen = s, height = 88 })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
