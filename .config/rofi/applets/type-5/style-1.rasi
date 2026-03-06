@@ -14,7 +14,7 @@ configuration {
 
 /*****----- Global Properties -----*****/
 * {
-    font:                        "NotoSansM Nerd Font Mono 12.5";
+    font:                        "ComicShannsMono Nerd Font Mono 14.05";
     background:                  #231419;
     background-alt:              #2D1E23;
     foreground:                  #FFFFFF;
