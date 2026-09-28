@@ -66,7 +66,7 @@ vim.g.vimtex_compiler_latexmk = { out_dir = 'texbuild' }
 vim.g.tex_flavor='latex'
 vim.g.vimtex_view_method='zathura'
 vim.g.vimtex_quickfix_mode=0
-vim.g.nvim_tree_update_cwd = 1
+-- vim.g.nvim_tree_update_cwd = 1
 -- vim.g.loaded_netrw = 1
 -- vim.g.loaded_netrwPlugin = 1
 
@@ -132,21 +132,12 @@ require("lazy").setup({
             }
         end
     },
-    "nvim-tree/nvim-web-devicons",
-    {
-        "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
-        config = function () 
-            local configs = require("nvim-treesitter.configs")
-            configs.setup({
-                auto_install = true,
-                highlight = {
-                    enable = true,
-                    disable = { "latex" },
-                }
-            })
-        end
-    },
+    -- "nvim-tree/nvim-web-devicons",
+    -- {
+    --   'nvim-treesitter/nvim-treesitter',
+    --   lazy = false,
+    --   build = ':TSUpdate'
+    -- },
     {
         "neovim/nvim-lspconfig",
         config = function()
@@ -387,9 +378,27 @@ require("lazy").setup({
         'stevearc/aerial.nvim',
         opts = {},
         dependencies = {
-            "nvim-treesitter/nvim-treesitter",
-            "nvim-tree/nvim-web-devicons"
+            -- "nvim-treesitter/nvim-treesitter",
+            -- "nvim-tree/nvim-web-devicons"
         },
+    },
+    { 
+        'tpope/vim-fugitive'
+    },
+    {
+        'nvim-treesitter/nvim-treesitter',
+        lazy = false,
+        build = ':TSUpdate'
+    },
+    {
+	    "f-person/git-blame.nvim",
+	    event = "VeryLazy",
+	    opts = {
+		enabled = false, 
+		message_template = " <summary> • <date> • <author> • <<sha>>", -- template for the blame message, check the Message template section for more options
+		date_format = "%m-%d-%Y %H:%M:%S", -- template for the date, check Date format section for more options
+		virtual_text_column = 1,  -- virtual text start column, check Start virtual text at column section for more options
+	    },
     }
 })
 

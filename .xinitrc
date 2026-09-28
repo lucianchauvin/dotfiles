@@ -34,6 +34,10 @@ fi
 
 xset r rate 300 150
 
+# disable niple cause broken and brekaing trackpad
+ID=$(xinput list | grep -i trackpoint | grep -oP 'id=\K[0-9]+')
+xinput disable $ID
+
 picom -b
 
 # export GDK_SCALE=2

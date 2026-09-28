@@ -21,6 +21,7 @@ snippet tmp "template"
 
 #let prob_c = counter("prob")
 #let problem(text, num: "", mod: "") = {
+  context if prob_c.get().at(0) != 0 {pagebreak()}
   [*Problem*]
   if num != "" {[* #num*]}
   else {prob_c.step(); context [* #prob_c.display()*]}

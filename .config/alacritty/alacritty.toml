@@ -1,3 +1,6 @@
+# [bell]
+# animation = "EaseOutExpo"
+# duration = 5
 
 [window]
 opacity = 1

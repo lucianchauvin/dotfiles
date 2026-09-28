@@ -10,6 +10,7 @@
 	helper = !/usr/bin/gh auth git-credential
 [core]
 	editor = nvim
+	whitespace = cr-at-eol
 [init]
 	defaultBranch = main
 [commit]

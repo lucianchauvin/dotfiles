@@ -250,6 +250,7 @@ globalkeys = mytable.join(
     -- Take a screenshot
     -- https://github.com/lcpz/dots/blob/master/bin/screenshot
     awful.key({ altkey }, "p", function() os.execute("scrot /tmp/%b%d::%H%M%S.png -e 'xclip -selection clipboard -t image/png -i $f; rm $f'") end,
+    -- awful.key({ altkey }, "p", function() os.execute("spectacle") end,
               {description = "take a screenshot", group = "hotkeys"}),
 
     -- X screen power menu
